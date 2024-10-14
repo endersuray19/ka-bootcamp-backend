@@ -1,0 +1,152 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// User
+model User {
+  id          Int      @id @default(autoincrement())
+  name        String
+  email       String   @unique
+  password    String   @db.Text
+  phoneNumber String
+  createdAt   DateTime @default(now())
+  orders      Order[]
+
+  @@map("users")
+}
+
+model Category {
+  id        Int       @id @default(autoincrement())
+  name      String
+  createdAt DateTime  @default(now())
+  products  Product[]
+
+  @@map("categories")
+}
+
+model Product {
+  id          Int      @id @default(autoincrement())
+  name        String
+  price       Float
+  description String?  @db.Text
+  categoryId  Int
+  company     String
+  createdAt   DateTime @default(now())
+  images      Json
+
+  category Category     @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  colors   Color[]
+  items    OrderItems[]
+
+  @@map("products")
+}
+
+model Color {
+  id        Int      @id @default(autoincrement())
+  color     String
+  quantity  Int
+  productId Int
+  createdAt DateTime @default(now())
+
+  product    Product      @relation(fields: [productId], references: [id], onDelete: Cascade)
+  orderItems OrderItems[]
+
+  @@map("colors")
+}
+
+model Order {
+  id      Int          @id @default(autoincrement())
+  status  OrderStatus  @default(PENDING)
+  invoice Invoice?
+  items   OrderItems[]
+  userId  Int
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@map("orders")
+}
+
+enum OrderStatus {
+  PENDING
+  SENDING
+  CANCELED
+}
+
+model OrderItems {
+  id        Int      @id @default(autoincrement())
+  orderId   Int
+  productId Int
+  colorId   Int
+  quantity  Int
+  createdAt DateTime @default(now())
+
+  order   Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  color   Color   @relation(fields: [colorId], references: [id], onDelete: Cascade)
+
+  @@map("order_items")
+}
+
+model Invoice {
+  id             Int           @id @default(autoincrement())
+  orderId        Int?          @unique
+  city           String
+  country        String
+  postalCode     String
+  state          String
+  streetLine1    String?
+  streetLine2    String?
+  xenditUrl      String?       @db.Text
+  paymentMethod  String?
+  paymentChannel String?
+  amount         Float
+  status         InvoiceStatus @default(PENDING)
+  createdAt      DateTime      @default(now())
+
+  order          Order?          @relation(fields: [orderId], references: [id], onDelete: SetNull)
+  invoiceTermins InvoiceTermin[]
+
+  @@map("invoices")
+}
+
+model InvoiceTermin {
+  id        Int           @id @default(autoincrement())
+  invoiceId Int
+  amount    Float
+  status    InvoiceStatus @default(PENDING)
+  createdAt DateTime      @default(now())
+
+  invoice Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+
+  @@map("invoice_termins")
+}
+
+enum InvoiceStatus {
+  PENDING
+  PAID
+  EXPIRED
+}
+
+model Notification {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String?  @db.Text
+  createdAt   DateTime @default(now())
+  link        String
+
+  @@map("notifications")
+}
