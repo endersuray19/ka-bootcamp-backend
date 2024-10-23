@@ -1,39 +1,13 @@
-import { useEffect, useState } from "react";
-import Link from "next/link";
 import ClickOutside from "@/components/ClickOutside";
-import { pusherClient } from "@/lib/pusher";
-import { Notification } from "@prisma/client";
 import axios from "axios";
 import { Bell } from "lucide-react";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 
 const DropdownNotification = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [notifying, setNotifying] = useState(false);
   const [notifications, setNotifications] = useState<Notification[]>([]);
-
-  const getNotification = async () => {
-    const { data }: { data: Notification[] } =
-      await axios.get("/api/notifications");
-
-    setNotifications(data);
-  };
-
-  useEffect(() => {
-    pusherClient.subscribe("notifications");
-
-    pusherClient.bind("new-notification", async () => {
-      await getNotification();
-      setNotifying(true);
-    });
-
-    return () => {
-      pusherClient.unsubscribe("notifications");
-    };
-  }, []);
-
-  useEffect(() => {
-    getNotification();
-  }, []);
 
   return (
     <ClickOutside
@@ -72,25 +46,19 @@ const DropdownNotification = () => {
             </div>
 
             <ul className="flex h-auto flex-col overflow-y-auto">
-              {notifications.map((notification) => (
-                <li key={notification.id}>
-                  <Link
-                    className="flex flex-col gap-2.5 border-t border-stroke px-4.5 py-3 hover:bg-gray-2 dark:border-strokedark dark:hover:bg-meta-4"
-                    href={`${notification.link}`}
-                  >
-                    <p className="text-sm">
-                      <span className="text-black dark:text-white">
-                        {notification.title}
-                      </span>{" "}
-                      {notification.description}
-                    </p>
+              <li>
+                <Link
+                  className="flex flex-col gap-2.5 border-t border-stroke px-4.5 py-3 hover:bg-gray-2 dark:border-strokedark dark:hover:bg-meta-4"
+                  href={`/`}
+                >
+                  <p className="text-sm">
+                    <span className="text-black dark:text-white">test</span>{" "}
+                    test
+                  </p>
 
-                    <p className="text-xs">
-                      {notification.createdAt.toString()}
-                    </p>
-                  </Link>
-                </li>
-              ))}
+                  <p className="text-xs">{}</p>
+                </Link>
+              </li>
             </ul>
           </div>
         )}
