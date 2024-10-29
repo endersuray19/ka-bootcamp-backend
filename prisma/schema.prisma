@@ -35,41 +35,58 @@ model Category {
 
   @@map("categories")
 }
+model Serie {
+  id        Int       @id @default(autoincrement())
+  name      String
+  createdAt DateTime  @default(now())
+  products  Product[]
 
+  @@map("series")
+}
+model Manufacture {
+  id        Int       @id @default(autoincrement())
+  name      String
+  createdAt DateTime  @default(now())
+  products  Product[]
+
+  @@map("manufactures")
+}
 model Product {
   id          Int      @id @default(autoincrement())
-  name        String
+  title        String
   price       Float
   description String?  @db.Text
   categoryId  Int
-  company     String
+  manufactureId   Int
+  serieId   Int
   createdAt   DateTime @default(now())
   images      Json
-
   category Category     @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-  colors   Color[]
+  manufacture Manufacture     @relation(fields: [manufactureId], references: [id], onDelete: Cascade)
+  serie Serie     @relation(fields: [serieId], references: [id], onDelete: Cascade)
+  // colors   Color[]
   items    OrderItems[]
 
   @@map("products")
 }
 
-model Color {
-  id        Int      @id @default(autoincrement())
-  color     String
-  quantity  Int
-  productId Int
-  createdAt DateTime @default(now())
+// model Color {
+//   id        Int      @id @default(autoincrement())
+//   color     String
+//   quantity  Int
+//   productId Int
+//   createdAt DateTime @default(now())
 
-  product    Product      @relation(fields: [productId], references: [id], onDelete: Cascade)
-  orderItems OrderItems[]
+//   product    Product      @relation(fields: [productId], references: [id], onDelete: Cascade)
+//   orderItems OrderItems[]
 
-  @@map("colors")
-}
+//   @@map("colors")
+// }
 
 model Order {
   id      Int          @id @default(autoincrement())
   status  OrderStatus  @default(PENDING)
-  invoice Invoice?
+  // invoice Invoice?
   items   OrderItems[]
   userId  Int
 
@@ -96,57 +113,57 @@ model OrderItems {
 
   order   Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
   product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
-  color   Color   @relation(fields: [colorId], references: [id], onDelete: Cascade)
+  // color   Color   @relation(fields: [colorId], references: [id], onDelete: Cascade)
 
   @@map("order_items")
 }
 
-model Invoice {
-  id             Int           @id @default(autoincrement())
-  orderId        Int?          @unique
-  city           String
-  country        String
-  postalCode     String
-  state          String
-  streetLine1    String?
-  streetLine2    String?
-  xenditUrl      String?       @db.Text
-  paymentMethod  String?
-  paymentChannel String?
-  amount         Float
-  status         InvoiceStatus @default(PENDING)
-  createdAt      DateTime      @default(now())
+// model Invoice {
+//   id             Int           @id @default(autoincrement())
+//   orderId        Int?          @unique
+//   city           String
+//   country        String
+//   postalCode     String
+//   state          String
+//   streetLine1    String?
+//   streetLine2    String?
+//   xenditUrl      String?       @db.Text
+//   paymentMethod  String?
+//   paymentChannel String?
+//   amount         Float
+//   status         InvoiceStatus @default(PENDING)
+//   createdAt      DateTime      @default(now())
 
-  order          Order?          @relation(fields: [orderId], references: [id], onDelete: SetNull)
-  invoiceTermins InvoiceTermin[]
+//   order          Order?          @relation(fields: [orderId], references: [id], onDelete: SetNull)
+//   invoiceTermins InvoiceTermin[]
 
-  @@map("invoices")
-}
+//   @@map("invoices")
+// }
 
-model InvoiceTermin {
-  id        Int           @id @default(autoincrement())
-  invoiceId Int
-  amount    Float
-  status    InvoiceStatus @default(PENDING)
-  createdAt DateTime      @default(now())
+// model InvoiceTermin {
+//   id        Int           @id @default(autoincrement())
+//   invoiceId Int
+//   amount    Float
+//   status    InvoiceStatus @default(PENDING)
+//   createdAt DateTime      @default(now())
 
-  invoice Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+//   invoice Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
 
-  @@map("invoice_termins")
-}
+//   @@map("invoice_termins")
+// }
 
-enum InvoiceStatus {
-  PENDING
-  PAID
-  EXPIRED
-}
+// enum InvoiceStatus {
+//   PENDING
+//   PAID
+//   EXPIRED
+// }
 
-model Notification {
-  id          Int      @id @default(autoincrement())
-  title       String
-  description String?  @db.Text
-  createdAt   DateTime @default(now())
-  link        String
+// model Notification {
+//   id          Int      @id @default(autoincrement())
+//   title       String
+//   description String?  @db.Text
+//   createdAt   DateTime @default(now())
+//   link        String
 
-  @@map("notifications")
-}
+  //@@map("notifications")
+//}
