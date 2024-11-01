@@ -76,6 +76,7 @@ export async function POST(request:Request){
                 serieId : body.serieId,
                 images : body.images,
                 description : body.description,
+                stock:body.stock,
             }
         })
         return NextResponse.json({
@@ -113,7 +114,7 @@ export async function GET(request:Request,{params}:{params:{productId : string}}
         return new NextResponse("unauthorized",{status:401});
       }
         const product = prisma.product.findMany();
-        return responeses({data:product,success:true,message:"get serie succeess",status:200})
+        return responeses({data:product,success:true,message:"get product succeess",status:200})
     }
     catch (err: any) {
         return NextResponse.json({

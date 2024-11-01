@@ -18,5 +18,6 @@ export const productSchema = z.object({
   manufactureId: z.number(),
   serieId: z.number(),
   description: z.string().optional(),
+  stock: z.number(),
   // images: z.array(imageSchema),
 });

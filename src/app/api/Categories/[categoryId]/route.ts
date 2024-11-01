@@ -58,7 +58,7 @@ export async function  DELETE(request:Request,{params}:{params:{categoryId:strin
       if(!user){
         return new NextResponse("unauthorized",{status:401});
       }
-        const prisma = new PrismaClient();
+       
         const category = prisma.category.delete({
             where:{
                 id:Number(params.categoryId),

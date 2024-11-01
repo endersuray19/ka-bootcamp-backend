@@ -65,13 +65,7 @@ export async function PATCH(request:Request,{params}:{params:{
                 id:Number(params.productId),
             }
         })
-        if(!product){
-            return NextResponse.json({
-              data: null,
-              success: false,
-              message: " product not found",
-            });
-          }
+       
           return NextResponse.json({
             data: product,
             success: true,

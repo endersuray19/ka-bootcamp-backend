@@ -73,6 +73,7 @@ model Product {
   category      Category     @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   manufacture   Manufacture  @relation(fields: [manufactureId], references: [id], onDelete: Cascade)
   serie         Serie        @relation(fields: [serieId], references: [id], onDelete: Cascade)
+  stock         Int?
   // colors   Color[]
   items         OrderItems[]
 
@@ -116,7 +117,6 @@ model OrderItems {
   id        Int      @id @default(autoincrement())
   orderId   Int
   productId Int
-  colorId   Int
   quantity  Int
   createdAt DateTime @default(now())
 
