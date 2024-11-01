@@ -1,4 +1,5 @@
 import { responeses } from "@/lib/respone";
+import { verifyUser } from "@/lib/verify";
 import { manufactureSchema } from "@/schema/manufacture";
 import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
@@ -6,6 +7,11 @@ import { ZodError } from "zod";
 
 export async function POST(request:Request){
     try{
+      const user = await verifyUser(request);
+      console.log(user);
+      if(!user){
+        return new NextResponse("unauthorized",{status:401});
+      }
         const body = await request.json();
 
         manufactureSchema.parse(body);
@@ -39,6 +45,11 @@ export async function POST(request:Request){
         }
       }
 export async function GET(request:Request) {
+  const user = await verifyUser(request);
+  console.log(user);
+  if(!user){
+    return new NextResponse("unauthorized",{status:401});
+  }
     const db = new PrismaClient();
     
     const manufactures = db.manufacture.findMany();

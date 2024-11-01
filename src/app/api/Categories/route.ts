@@ -1,15 +1,20 @@
 import { responeses } from "@/lib/respone";
 import { categorySchema } from "@/schema/category";
-import { PrismaClient } from "@prisma/client/extension";
 import { NextResponse } from "next/server";
 import { ZodError } from "zod";
-
+import prisma from "@/lib/prisma";
+import { verifyUser } from "@/lib/verify";
 export async function POST(request:Request){
     try{
+      const user = await verifyUser(request);
+      console.log(user);
+      if(!user){
+        return new NextResponse("unauthorized",{status:401});
+      }
        const body = await request.json();
     categorySchema.parse(body);
-    const db = new PrismaClient;
-    const category = db.category.create({
+    
+    const category = await prisma.category.create({
         data:{
             name: body.name,
         }
@@ -45,8 +50,12 @@ export async function POST(request:Request){
     categoryId:string;
   }}) {
     try{
-        const db = new PrismaClient;
-    const category = db.category.findMany() ;
+      const user = await verifyUser(request);
+      console.log(user);
+      if(!user){
+        return new NextResponse("unauthorized",{status:401});
+      }
+    const category = await prisma.category.findMany() ;
     return responeses({data:category,success:true,message:"get serie succeess",status:200})
 }
 catch (err: any) {

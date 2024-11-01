@@ -3,9 +3,15 @@ import { NextResponse } from "next/server";
 import { serieSchema } from "@/schema/serie";
 import { ZodError } from "zod";
 import { responeses } from "@/lib/respone";
+import { verifyUser } from "@/lib/verify";
 
 export async function POST(request: Request) {
   try {
+    const user = await verifyUser(request);
+    console.log(user);
+    if(!user){
+      return new NextResponse("unauthorized",{status:401});
+    }
     const body = await request.json();
    
     serieSchema.parse(body);
@@ -46,6 +52,11 @@ export async function POST(request: Request) {
 }
 export async function GET(request:Request){
   try{
+    const user = await verifyUser(request);
+    console.log(user);
+    if(!user){
+      return new NextResponse("unauthorized",{status:401});
+    }
     const db = new PrismaClient();
 
     const serie = await db.serie.findMany();

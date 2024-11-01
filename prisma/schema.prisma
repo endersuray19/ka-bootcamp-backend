@@ -23,8 +23,14 @@ model User {
   phoneNumber String
   createdAt   DateTime @default(now())
   orders      Order[]
+  roles       Roles
 
   @@map("users")
+}
+
+enum Roles {
+  ADMIN
+  CUSTOMER
 }
 
 model Category {
@@ -35,6 +41,7 @@ model Category {
 
   @@map("categories")
 }
+
 model Serie {
   id        Int       @id @default(autoincrement())
   name      String
@@ -43,6 +50,7 @@ model Serie {
 
   @@map("series")
 }
+
 model Manufacture {
   id        Int       @id @default(autoincrement())
   name      String
@@ -51,21 +59,22 @@ model Manufacture {
 
   @@map("manufactures")
 }
+
 model Product {
-  id          Int      @id @default(autoincrement())
-  title        String
-  price       Float
-  description String?  @db.Text
-  categoryId  Int
-  manufactureId   Int
-  serieId   Int
-  createdAt   DateTime @default(now())
-  images      Json
-  category Category     @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-  manufacture Manufacture     @relation(fields: [manufactureId], references: [id], onDelete: Cascade)
-  serie Serie     @relation(fields: [serieId], references: [id], onDelete: Cascade)
+  id            Int          @id @default(autoincrement())
+  title         String
+  price         Float
+  description   String?      @db.Text
+  categoryId    Int
+  manufactureId Int
+  serieId       Int
+  createdAt     DateTime     @default(now())
+  images        Json
+  category      Category     @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  manufacture   Manufacture  @relation(fields: [manufactureId], references: [id], onDelete: Cascade)
+  serie         Serie        @relation(fields: [serieId], references: [id], onDelete: Cascade)
   // colors   Color[]
-  items    OrderItems[]
+  items         OrderItems[]
 
   @@map("products")
 }
@@ -84,11 +93,11 @@ model Product {
 // }
 
 model Order {
-  id      Int          @id @default(autoincrement())
-  status  OrderStatus  @default(PENDING)
+  id     Int          @id @default(autoincrement())
+  status OrderStatus  @default(PENDING)
   // invoice Invoice?
-  items   OrderItems[]
-  userId  Int
+  items  OrderItems[]
+  userId Int
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -165,5 +174,5 @@ model OrderItems {
 //   createdAt   DateTime @default(now())
 //   link        String
 
-  //@@map("notifications")
+//@@map("notifications")
 //}

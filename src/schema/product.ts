@@ -6,16 +6,16 @@ import { z } from "zod";
 //   quantity: z.number(),
 // });
 
-// const imageSchema = z.object({
-//   id: z.number(),
-//   filename: z.string(),
-// });
+const imageSchema = z.object({
+  id: z.number(),
+  filename: z.string(),
+});
 
 export const productSchema = z.object({
   title: z.string().min(3),
   price: z.number(),
   categoryId: z.number(),
-  manufacturId: z.number(),
+  manufactureId: z.number(),
   serieId: z.number(),
   description: z.string().optional(),
   // images: z.array(imageSchema),

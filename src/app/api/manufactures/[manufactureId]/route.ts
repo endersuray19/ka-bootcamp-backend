@@ -1,4 +1,5 @@
 import { responeses } from "@/lib/respone";
+import { verifyUser } from "@/lib/verify";
 import { manufactureSchema } from "@/schema/manufacture";
 import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
@@ -6,6 +7,11 @@ import { ZodError } from "zod";
 
 export async function PATCH(request:Request,{params}:{params:{manufactureId:string}}){
     try{
+      const user = await verifyUser(request);
+      console.log(user);
+      if(!user){
+        return new NextResponse("unauthorized",{status:401});
+      }
         const body = await request.json();
         
         manufactureSchema.parse(body);
@@ -52,6 +58,11 @@ export async function PATCH(request:Request,{params}:{params:{manufactureId:stri
 export async function DELETE(request:Request,{params}:{params:{manufactureId:string}}) {
   try
   {
+    const user = await verifyUser(request);
+    console.log(user);
+    if(!user){
+      return new NextResponse("unauthorized",{status:401});
+    }
     const body = await request.json();
 
     manufactureSchema.parse(body);

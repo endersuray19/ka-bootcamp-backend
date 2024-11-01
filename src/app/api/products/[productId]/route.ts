@@ -2,15 +2,21 @@ import { productSchema } from "@/schema/product";
 import { PrismaClient } from "@prisma/client/extension";
 import { NextResponse } from "next/server";
 import { ZodError } from "zod";
-
+import prisma from "@/lib/prisma";
+import { verifyUser } from "@/lib/verify";
 export async function PATCH(request:Request,{params}:{params:{
     productId:string
 }}){
     try{
+      const user = await verifyUser(request);
+      console.log(user);
+      if(!user){
+        return new NextResponse("unauthorized",{status:401});
+      }
         const body = await request.json();
         productSchema.parse(body);
-        const db = new PrismaClient();
-        const product = db.product.findFirst({
+       
+        const product = await prisma.product.findFirst({
             where:{
                 id:Number(params.productId),
             }
@@ -49,8 +55,12 @@ export async function PATCH(request:Request,{params}:{params:{
   }
   export async function DELETE(request:Request,{params}:{params:{productId:string}}) {
     try{
-        const db = new PrismaClient();
-        const product = db.product.delete({
+      const user = await verifyUser(request);
+      console.log(user);
+      if(!user){
+        return new NextResponse("unauthorized",{status:401});
+      }
+        const product = prisma.product.delete({
             where:{
                 id:Number(params.productId),
             }

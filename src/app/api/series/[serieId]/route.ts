@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { serieSchema } from "@/schema/serie";
 import { number, ZodError } from "zod";
 import { responeses } from "@/lib/respone";
+import { verifyUser } from "@/lib/verify";
 
 export async function PATCH(
   request: Request
@@ -10,6 +11,11 @@ export async function PATCH(
     { serieId: string } },
   ) {
   try {
+    const user = await verifyUser(request);
+    console.log(user);
+    if(!user){
+      return new NextResponse("unauthorized",{status:401});
+    }
     const body = await request.json();
    
     serieSchema.parse(body);
@@ -58,6 +64,11 @@ export async function DELETE(
     { serieId: string } },
   ) {
   try {
+    const user = await verifyUser(request);
+    console.log(user);
+    if(!user){
+      return new NextResponse("unauthorized",{status:401});
+    }
     const body = await request.json();
    
     serieSchema.parse(body);
