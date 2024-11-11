@@ -14,6 +14,7 @@
     "apexcharts": "^3.45.2",
     "axios": "^1.7.7",
     "bcrypt": "^5.1.1",
+    "dayjs": "^1.11.13",
     "flatpickr": "^4.6.13",
     "jose": "^5.9.6",
     "jsvectormap": "^1.6.0",
@@ -26,6 +27,7 @@
     "react-dom": "^18",
     "react-hot-toast": "^2.4.1",
     "redis": "^4.7.0",
+    "sweetalert2": "^11.14.5",
     "zod": "^3.23.8"
   },
   "devDependencies": {

@@ -50,11 +50,11 @@ export async function POST(request:Request){
     categoryId:string;
   }}) {
     try{
-      const user = await verifyUser(request);
-      console.log(user);
-      if(!user){
-        return new NextResponse("unauthorized",{status:401});
-      }
+      // // const user = await verifyUser(request);
+      // console.log(user);
+      // if(!user){
+      //   return new NextResponse("unauthorized",{status:401});
+      // }
     const category = await prisma.category.findMany() ;
     return responeses({data:category,success:true,message:"get serie succeess",status:200})
 }

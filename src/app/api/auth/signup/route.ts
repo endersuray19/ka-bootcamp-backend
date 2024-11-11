@@ -32,6 +32,7 @@ export async function  POST(request:Request) {
         })
     }
     catch(err:any){
+        console.log(err);
         if( err instanceof ZodError){
             return NextResponse.json(err.issues[0])
         }else if( err instanceof PrismaClientKnownRequestError){
