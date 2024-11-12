@@ -48,7 +48,8 @@ export default async function Categories(){
                 
                 <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
                   <div className="flex items-center space-x-3.5">
-                    <button className="hover:text-primary">
+                    <Link href={`/categories/update/${category.id}`} className="hover:text-primary">
+              
                       <svg
                         className="fill-current"
                         width="18"
@@ -66,7 +67,8 @@ export default async function Categories(){
                           fill=""
                         />
                       </svg>
-                    </button>
+                    </Link>
+                   
                     <button className="hover:text-primary">
                       <svg
                         className="fill-current"

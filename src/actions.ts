@@ -93,3 +93,39 @@ export async function createCategory(formData: FormData){
       } 
   }
 }
+export async function updateCategory(formData: FormData) {
+  try {
+    const body = {
+      id: parseInt(formData.get("id") as string), // Ensure the id is correctly parsed
+      name: formData.get("name"),
+      isActive: formData.get("isActive"),
+      description: formData.get("description"),
+    };
+
+    console.log(body); // Check if the id is being passed
+
+    // Validate with your schema
+    categorySchema.parse(body);
+
+    // Update the category using the id
+    const category = await prisma.category.update({
+      where: {
+        id: body.id, // Ensure the id is being used correctly
+      },
+      data: {
+        name: body.name as string,
+        isActive: body.isActive === "1" ? true : false,
+        description: body.description as string,
+      },
+    });
+
+    return { success: "Category updated successfully" };
+  } catch (err: any) {
+    console.log(err);
+    if (err instanceof ZodError) {
+      return { success: false, error: "Please insert a correct data" };
+    } else {
+      return { success: false, error: err?.message || "Internal server error" };
+    }
+  }
+}
