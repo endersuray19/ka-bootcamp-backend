@@ -129,3 +129,21 @@ export async function updateCategory(formData: FormData) {
     }
   }
 }
+export async function deleteCategory(id:number){
+  try{
+    const category = await prisma.category.delete({
+      where:{
+        id:id
+      }
+    })
+    return { success: "Category deleted successfully" };
+  }
+  catch(err:any){
+    console.log(err);
+    if(err instanceof ZodError){
+      return { success: false, error: "Please insert a correct data" };
+    }else{
+      return { success: false, error: err?.message || "Internal server error" };
+    } 
+  }
+}

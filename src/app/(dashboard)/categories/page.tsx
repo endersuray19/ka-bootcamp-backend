@@ -3,9 +3,24 @@ import prisma from "@/lib/prisma";
 import { Package } from "@/types/package";
 import dayjs from "dayjs";
 import Link from "next/link";
-export default async function Categories(){
+import Swal from "sweetalert2";
+import { deleteCategory } from "@/actions";
+
+export default async function Categories({params}:{params:{categoryId:string}}){
     
-    const categories = await prisma.category.findMany();      
+    const categories = await prisma.category.findMany();     
+    console.log(categories);
+    
+ const handleDelete = async (categoryId:string)=>{
+  const result = await deleteCategory(Number(categoryId));
+  if(!result.success){
+    Swal.fire({
+      icon:"error",
+      title:"Oops...",
+      text:result.error,
+    })
+  }
+}
     return(
         <div>
             <Breadcrumb pageName="Categories" />
@@ -68,8 +83,7 @@ export default async function Categories(){
                         />
                       </svg>
                     </Link>
-                   
-                    <button className="hover:text-primary">
+                    <button onClick={()=>handleDelete(category.id.toString())} className="hover:text-primary">
                       <svg
                         className="fill-current"
                         width="18"
@@ -96,6 +110,8 @@ export default async function Categories(){
                         />
                       </svg>
                     </button>
+                     
+                    
                     
                   </div>
                 </td>
