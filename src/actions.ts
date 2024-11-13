@@ -129,14 +129,14 @@ export async function updateCategory(formData: FormData) {
     }
   }
 }
-export async function deleteCategory(id:number){
+export async function deleteCategory(id: string){
   try{
-    const category = await prisma.category.delete({
-      where:{
-        id:id
-      }
-    })
-    return { success: "Category deleted successfully" };
+  const category = await prisma.category.delete({
+    where:{
+      id:parseInt(id)
+    }
+  })
+    return { success: "Category deleted successfully", data: category };
   }
   catch(err:any){
     console.log(err);
