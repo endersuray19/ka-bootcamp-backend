@@ -1,5 +1,5 @@
 "use client"
-import {updateCategory } from "@/actions";
+import {updateCategory } from "@/app/actions";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import prisma from "@/lib/prisma";
 import Link from "next/link";

@@ -1,5 +1,5 @@
 "use client"
-import { createCategory } from "@/actions";
+import { createCategory } from "@/app/actions";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import Link from "next/link";
 import {useRouter } from "next/navigation";

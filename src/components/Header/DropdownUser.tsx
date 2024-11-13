@@ -2,7 +2,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import ClickOutside from "@/components/ClickOutside";
-import { signOut } from "@/actions";
+import { signOut } from "@/app/actions";
 import { useRouter } from "next/navigation";
 
 

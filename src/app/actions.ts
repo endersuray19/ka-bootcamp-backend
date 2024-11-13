@@ -6,7 +6,7 @@ import { compareSync } from "bcrypt";
 import { SignJWT } from "jose";
 import { ZodError } from "zod";
 import {cookies} from 'next/headers';
-import { categorySchema } from "./schema/category";
+import { categorySchema } from "@/schema/category";
 export async function signIn(formData: FormData) {
   try {
     // Tangkap data dari request
@@ -136,7 +136,7 @@ export async function deleteCategory(id: string){
       id:parseInt(id)
     }
   })
-    return { success: "Category deleted successfully", data: category };
+    return { success: true, data: category };
   }
   catch(err:any){
     console.log(err);
