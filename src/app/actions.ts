@@ -7,6 +7,7 @@ import { SignJWT } from "jose";
 import { ZodError } from "zod";
 import {cookies} from 'next/headers';
 import { categorySchema } from "@/schema/category";
+import { revalidatePath } from "next/cache";
 export async function signIn(formData: FormData) {
   try {
     // Tangkap data dari request
@@ -93,10 +94,9 @@ export async function createCategory(formData: FormData){
       } 
   }
 }
-export async function updateCategory(formData: FormData) {
+export async function updateCategory(formData: FormData, id:string) {
   try {
     const body = {
-      id: parseInt(formData.get("id") as string), // Ensure the id is correctly parsed
       name: formData.get("name"),
       isActive: formData.get("isActive"),
       description: formData.get("description"),
@@ -110,7 +110,7 @@ export async function updateCategory(formData: FormData) {
     // Update the category using the id
     const category = await prisma.category.update({
       where: {
-        id: body.id, // Ensure the id is being used correctly
+        id: Number(id), // Ensure the id is being used correctly
       },
       data: {
         name: body.name as string,
@@ -118,8 +118,8 @@ export async function updateCategory(formData: FormData) {
         description: body.description as string,
       },
     });
-
-    return { success: "Category updated successfully" };
+    revalidatePath("/categories");
+    return { success: true,data:category };
   } catch (err: any) {
     console.log(err);
     if (err instanceof ZodError) {

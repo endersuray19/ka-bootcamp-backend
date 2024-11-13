@@ -5,7 +5,8 @@ import dayjs from "dayjs";
 import Link from "next/link";
 import Swal from "sweetalert2";
 import DeleteCategories from "./_component/form";
-import ActionForm from "./_component/form";
+import ActionForm from "./_component/formAction";
+import Form from "./_component/form";
 
 
 
@@ -57,7 +58,7 @@ export default async function Categories(){
                 
                 <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
                   <div className="flex items-center space-x-3.5">
-                    <Link href={`/categories/update/${category.id}`} className="hover:text-primary">
+                    <Link href={`/categories/${category.id}`} className="hover:text-primary">
               
                       <svg
                         className="fill-current"
