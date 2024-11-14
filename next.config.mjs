@@ -5,6 +5,15 @@ const nextConfig = {
       {
         hostname: "nafyopizhmmgxzbjaejy.supabase.co",
       },
+      {
+        hostname:"static.wikia.nocookie.net",
+      },
+      {
+        hostname:"projectsekai.fandom.com",
+      },
+      {
+        hostname:"down-id.img.susercontent.com",
+      }
     ],
   },
 };

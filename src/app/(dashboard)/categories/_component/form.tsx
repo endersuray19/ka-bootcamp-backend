@@ -4,12 +4,14 @@ import Swal from "sweetalert2";
 import { createCategory, updateCategory } from "@/app/actions";
 import { useRouter } from "next/navigation";
 import { Category } from "@prisma/client";
+import { useState } from "react";
 
 interface ActionFormProps {
   category?: Category;
 }
 
 export default function Form({category}:ActionFormProps){
+  const [loading,setLoading] = useState(false);
   const router = useRouter();
 
   const handleSubmit = async (formData:FormData)=>{
@@ -47,6 +49,7 @@ export default function Form({category}:ActionFormProps){
             Name Category
           </label>
           <input
+          disabled={loading}
             name="name"
             defaultValue={category?.name}
             type="text"
@@ -57,7 +60,7 @@ export default function Form({category}:ActionFormProps){
         <label className="mb-3 block text-sm font-medium text-black dark:text-white">
             Active
           </label>
-        <select name="isActive"
+        <select disabled={loading} name="isActive"
     className={`relative z-20 w-full appearance-none rounded border border-stroke bg-transparent pl-5 py-3 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input`}
     >
     <option value={1} className="text-body dark:text-bodydark">
@@ -72,7 +75,7 @@ export default function Form({category}:ActionFormProps){
           <label className="mb-3 block text-sm font-medium text-black dark:text-white">
             Description
           </label>
-          <textarea
+          <textarea disabled={loading}
           defaultValue={category?.description||""}
             name="description"
             rows={6}
