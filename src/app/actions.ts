@@ -83,7 +83,7 @@ export async function createCategory(formData: FormData){
         description: body.description as string,
       }
     })
-    return { success: "Category created successfully" };
+    return {success:true,message:"category created successfully"};
   }
   catch(err: any){
     console.log(err);

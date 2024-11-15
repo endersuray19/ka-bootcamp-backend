@@ -47,6 +47,8 @@ model Category {
 model Serie {
   id        Int       @id @default(autoincrement())
   name      String
+  description String  @default("test")
+  isActive  Boolean   @default(true)
   createdAt DateTime  @default(now())
   products  Product[]
 

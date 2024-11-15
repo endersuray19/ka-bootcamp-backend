@@ -22,6 +22,11 @@ export const menuGroups = [
         route: "/categories",
       },
       {
+        icon: <ChartBarStacked size={18} />,
+        label: "Serie",
+        route: "/series",
+      },
+      {
         icon: <ShoppingBag size={18} />,
         label: "Product",
         route: "/product",
