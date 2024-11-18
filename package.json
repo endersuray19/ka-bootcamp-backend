@@ -16,6 +16,7 @@
     "bcrypt": "^5.1.1",
     "dayjs": "^1.11.13",
     "flatpickr": "^4.6.13",
+    "formdata-node": "^6.0.3",
     "jose": "^5.9.6",
     "jsvectormap": "^1.6.0",
     "lucide-react": "^0.438.0",

@@ -13,6 +13,8 @@ const nextConfig = {
       },
       {
         hostname:"down-id.img.susercontent.com",
+      },{
+        hostname:"mbvrysnfeutyqrfclwmh.supabase.co",
       }
     ],
   },

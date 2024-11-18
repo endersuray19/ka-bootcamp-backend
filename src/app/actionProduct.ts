@@ -12,7 +12,7 @@ import { productSchema } from "@/schema/product";
 import { error } from "console";
 
 
-export async function  createProduct(formData:FormData) {
+export async function  createProduct(formData:FormData, images:string[]) {
     try{
         const body={
             title: formData.get("title"),
@@ -21,7 +21,7 @@ export async function  createProduct(formData:FormData) {
             categoryId: formData.get("categoryId")? Number(formData.get("categoryId")):0,
             serieId: formData.get("serieId")? Number(formData.get("serieId")):0,
             manufactureId: formData.get("manufactureId") ? Number(formData.get("manufactureId")):0,
-            image: ["https://projectsekai.fandom.com/wiki/Otori_Emu/Cards?file=Operation_Smile_Was_a_Great_Success%21_T.png","https://projectsekai.fandom.com/wiki/Otori_Emu/Cards?file=Operation_Smile_Was_a_Great_Success%21_T.png"],
+            image: images,
             stock: formData.get("stock")? Number(formData.get("stock")):0,
             
         }
@@ -50,7 +50,7 @@ export async function  createProduct(formData:FormData) {
     }
     
 }
-export async function  updateProduct(formData:FormData,id:string) {
+export async function  updateProduct(formData:FormData,id:string,images:string[]) {
     try{
         const body={
             title: formData.get("title"),
@@ -59,7 +59,7 @@ export async function  updateProduct(formData:FormData,id:string) {
             categoryId: formData.get("categoryId")? Number(formData.get("categoryId")):0,
             serieId: formData.get("serieId")? Number(formData.get("serieId")):0,
             manufactureId: formData.get("manufactureId") ? Number(formData.get("manufactureId")):0,
-            image: ["https://down-id.img.susercontent.com/file/db87ae88fc6378abee2f5231b8a2b0d6.webp","https://down-id.img.susercontent.com/file/9e133d4c7963a3b2d1e018753f353e21.webp","https://down-id.img.susercontent.com/file/b2a9e48b9d0bbe7585b5afc6b2eb6cbe.webp","https://down-id.img.susercontent.com/file/d9f7b975ebd3f5f5dbfebb88ae386659.webp"],
+            image: images,
             stock: formData.get("stock")? Number(formData.get("stock")):0,
             
         }

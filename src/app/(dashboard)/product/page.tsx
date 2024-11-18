@@ -62,7 +62,7 @@ export default async function Product(){
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
               <div className="h-12.5 w-15 rounded-md">
                 <Image
-                  src={(product.images as string[])[0]}
+                  src={`${process.env.SUPABASE_PUBLIC_IMAGE}/${(product.images as string[])[0]}`}
                   width={60}
                   height={50}
                   alt="Product"

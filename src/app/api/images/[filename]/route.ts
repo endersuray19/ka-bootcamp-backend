@@ -1,8 +1,15 @@
 
 import { NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
-export async function GET( request:Request, {params}:{params:{filename:string}}) {
-    const {data,error} = await supabase.storage.from("images").remove([params.filename]);
+export async function DELETE(request:Request,{params}:{params:{filename:string}}) {
+    try{
+        const {filename} = params;
 
-    return NextResponse.json({data,error}, {status:200});
-}
+        const{data, error} =  await supabase.storage.from("images").remove([filename]);
+        return NextResponse.json({message:"File deleted successfully",success:true}, {status:200});
+    }
+    catch(error){
+        return NextResponse.json({error}, {status:500});
+    }
+   
+} 

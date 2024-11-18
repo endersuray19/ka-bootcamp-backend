@@ -7,6 +7,8 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
+import Image from "next/image";
+import { X } from "lucide-react";
 
 interface FormProductProps{
     categories:Category[],
@@ -14,58 +16,70 @@ interface FormProductProps{
     manufactures:Manufacture[],
     product?:Product,
 }
-export default function Form({categories,series,manufactures,product}:FormProductProps){
-  const [images,setImages] = useState<string[]>([]);
-  const [loading,setLoading] = useState(false);
+export default function FormProduct({ categories, series, manufactures, product }: FormProductProps) {
+  const [loading, setLoading] = useState(false);
+  const imagesLocal = JSON.parse(localStorage.getItem("images") || "[]");
+  const [images, setImages] = useState<string[]>(imagesLocal || []);
+
   const router = useRouter();
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>)=>{
-       event.preventDefault();
-       setLoading(true);
-       const formData = new FormData(event.currentTarget as HTMLFormElement);
-       const result = product ? await updateProduct (formData,product.id.toString()) : await createProduct(formData);
-       setLoading(false);
-       if(!result.success){
-        Swal.fire({
-          icon:'error',
-          title:'error',
-          text:result.error || "Something went wrong",
-          
-        })
-       }else{
-        await Swal.fire({
-          icon:'success',
-          title:'success',
-          text:product ? "Product updated successfully":"Category created successfully",
-        })
-        router.push('/product');
-       }
-       
+
+  async function handleSubmit(formData: FormData) {
+    
+    const results = await createProduct(formData, images);
+
+    if (results.success) {
+      localStorage.setItem("images",JSON.stringify([]));
+      toast.success("Product created successfully");
+      router.push("/products");
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: results.error,
+      });
     }
-    async function handleUploadImages(
-      event: React.ChangeEvent<HTMLInputElement>,
-    ) {
-      try {
-        const files = event.target.files ? Array.from(event.target.files) : [];
-        console.log("array", files);
-  
-        const formData = new FormData();
-        files.forEach((file) => {
-          formData.append("files", file);
-        });
-  
-        const { data } = await axios.post("/api/images", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
-        console.log("data",data);
-        setImages([...images, ...data.uploadedFiles]);
-  
-        toast.success("Upload file success");
-      } catch (err: any) {
-        console.log(err);
-      }
-    }
+  }
+  async function handleUploadImages(
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) {
+    try {
+      const files = event.target.files ? Array.from(event.target.files) : [];
+
+      const formData = new FormData();
+      files.forEach((file) => {
+        formData.append("files", file);
+      });
+
+      const { data } = await axios.post("/api/images", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      setImages([...images, ...data.uploadedFiles]);
+      localStorage.setItem(
+        "images",
+        JSON.stringify([...images, ...data.uploadedFiles]),
+      );
+
+      toast.success("Upload file success");
+    } catch (err: any) {
+      console.log(err);
+    }
+    
+  }
+  async function handleDeleteImage(filename:string){
+    try{
+      await axios.delete(`/api/images/${filename}`)
+      const newImages = images.filter((image)=>image !==filename);
+      setImages(newImages);
+      localStorage.setItem("images",JSON.stringify(newImages));
+      toast.success("File deleted successfully");
+    }
+    catch(error){
+      console.log(error);
+    }
+  }
     return(
         <div>
           <div className=" grid grid-cols-2">
@@ -75,7 +89,7 @@ export default function Form({categories,series,manufactures,product}:FormProduc
                 Product
               </h3>
             </div>
-            <form onSubmit={handleSubmit}>
+            <form action={handleSubmit}>
               <div className="p-6.5">
                 <div className="mb-4.5">
                   <label className="mb-3 block text-sm font-medium text-black dark:text-white">
@@ -180,7 +194,27 @@ export default function Form({categories,series,manufactures,product}:FormProduc
               </div>
             </form>
           </div>
+          <div className="grid w-full ml-5 grid-cols-2 gap-2">
+        {images.map((image, i) => (
+          <div
+            key={i}
+            className="relative aspect-square rounded bg-white shadow-md"
+          >
+            <Image
+              src={`${process.env.NEXT_PUBLIC_SUPABASE_PUBLIC_IMAGE}/${image}`}
+              alt="test"
+              fill
+              className="object-contain"
+            />
+
+            <button onClick={()=>handleDeleteImage(image)} className="absolute -right-4 -top-4 rounded-full bg-red p-3 text-white transition-opacity hover:bg-red/90">
+              <X />
+            </button>
+          </div>
+        ))}
+      </div>
         </div>
+       
         </div>
         
     )
