@@ -6,7 +6,11 @@ import Image from "next/image";
 import Link from "next/link";
 import Swal from "sweetalert2";
 import ActionForm from "./_components/formAction";
-
+import { Metadata } from "next";
+export const metadata:Metadata = {
+  title:"Product",
+  description:"Dashboard"
+}
 export default async function Product(){
     const products = await prisma.product.findMany({
         include:{

@@ -7,11 +7,11 @@ import prisma from "@/lib/prisma";
 import { verifyUser } from "@/lib/verify";
 export async function POST(request:Request){
     try{
-      const user = await verifyUser(request);
-      console.log(user);
-      if(!user){
-        return new NextResponse("unauthorized",{status:401});
-      }
+      // const user = await verifyUser(request);
+      // console.log(user);
+      // if(!user){
+      //   return new NextResponse("unauthorized",{status:401});
+      // }
         const body = await request.json();
         productSchema.parse(body);
         
@@ -108,11 +108,11 @@ export async function POST(request:Request){
       }
 export async function GET(request:Request,{params}:{params:{productId : string}}) {
     try{
-      const user = await verifyUser(request);
-      console.log(user);
-      if(!user){
-        return new NextResponse("unauthorized",{status:401});
-      }
+      // const user = await verifyUser(request);
+      // console.log(user);
+      // if(!user){
+      //   return new NextResponse("unauthorized",{status:401});
+      // }
         const product = prisma.product.findMany();
         return responeses({data:product,success:true,message:"get product succeess",status:200})
     }

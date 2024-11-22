@@ -7,7 +7,7 @@ import { ZodError } from "zod";
 
 type OrderPayload = {
   productId: number;
-  stock: number;
+  quantity: number;
 };
 
 export async function POST(request: Request) {
@@ -35,9 +35,9 @@ export async function POST(request: Request) {
           },
         });
 
-        if (item.stock > product.stock!) {
+        if (item.quantity > product.stock!) {
           throw new Error(
-           ` Requested stock (${item.stock}) exceeds available stock (${product.stock}) for productId ${item.productId},`
+           ` Requested stock (${item.quantity}) exceeds available stock (${product.stock}) for productId ${item.productId},`
           );
         }
       }
@@ -47,13 +47,16 @@ export async function POST(request: Request) {
         data: {
           status: "PENDING",
           userId: user.id,
-          // items: {
-          //   create: (body.items as OrderPayload[]).map((item) => ({
-          //     colorId: item.colorId,
-          //     productId: item.productId,
-          //     quantity: item.quantity,
-          //   })),
-          // },
+          items: {
+            create: (body.items as OrderPayload[]).map((item) => ({
+              productId: item.productId,
+              quantity: item.quantity,
+              address:body.address,
+              country:body.country,
+              postalCode:body.postalCode,
+              city:body.city,
+            })),
+          },
         },
         include: {
           user: {
@@ -67,9 +70,13 @@ export async function POST(request: Request) {
       for (const item of body.items as OrderPayload[]) {
         await ctx.orderItems.create({
           data: {
-            quantity: item.stock,
+            quantity: item.quantity,
             productId: item.productId,
             orderId: createdOrder.id,
+            address:body.address,
+            country:body.country,
+            postalCode:body.postalCode,
+            city:body.city,
           },
         });
       }
@@ -82,7 +89,7 @@ export async function POST(request: Request) {
           },
           data: {
             stock: {
-              decrement: item.stock,
+              decrement: item.quantity,
             },
           },
         });
@@ -103,4 +110,32 @@ export async function POST(request: Request) {
       return new NextResponse("Internal server error", { status: 500 });
     }
   }
+}
+export async function GET(request:Request){
+try{
+  const user = await verifyUser(request);
+      console.log(user);
+      if(!user){
+        return new NextResponse("unauthorized",{status:401});
+      }
+      const orders = await prisma.order.findMany({
+        where:{
+          userId:user.id
+        },
+        include:{
+          items:{
+            include:{
+              product:{
+                include:{
+                  category:true,
+                }
+              }
+            }
+          }
+        }
+      });
+      return NextResponse.json(orders,{status:200});
+}catch(error:any){
+  return new NextResponse("Internal server error", { status: 500 });
+}
 }

@@ -58,6 +58,7 @@ model Serie {
 model Manufacture {
   id        Int       @id @default(autoincrement())
   name      String
+  description   String?      @db.Text
   createdAt DateTime  @default(now())
   products  Product[]
 
@@ -123,6 +124,10 @@ model OrderItems {
   orderId   Int
   productId Int
   quantity  Int
+  address   String?
+  country   String?
+  postalCode String?
+  city      String?
   createdAt DateTime @default(now())
 
   order   Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)

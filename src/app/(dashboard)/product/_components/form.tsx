@@ -19,18 +19,20 @@ interface FormProductProps{
 export default function FormProduct({ categories, series, manufactures, product }: FormProductProps) {
   const [loading, setLoading] = useState(false);
   const imagesLocal = JSON.parse(localStorage.getItem("images") || "[]");
-  const [images, setImages] = useState<string[]>(imagesLocal || []);
+  const [images, setImages] = useState<string[]>(
+    product ? product.images : imagesLocal,
+  );
 
   const router = useRouter();
 
   async function handleSubmit(formData: FormData) {
     
-    const results = await createProduct(formData, images);
+    const results = product ? await updateProduct(formData, product.id.toString() , images) : await createProduct(formData, images) ;
 
     if (results.success) {
       localStorage.setItem("images",JSON.stringify([]));
       toast.success("Product created successfully");
-      router.push("/products");
+      router.push("/product");
     } else {
       Swal.fire({
         icon: "error",
@@ -107,7 +109,7 @@ export default function FormProduct({ categories, series, manufactures, product 
                 <label className="mb-3 block text-sm font-medium text-black dark:text-white">
                     Category
                   </label>
-                <select  name="categoryId"
+                <select  name="categoryId" defaultValue={product?.categoryId.toString()}
             className={`relative z-20 w-full appearance-none rounded border border-stroke bg-transparent pl-5 py-3 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input`}
             >
            
@@ -118,7 +120,7 @@ export default function FormProduct({ categories, series, manufactures, product 
             <label className="mb-3 block text-sm font-medium text-black dark:text-white">
                     Serie
                   </label>
-                <select  name="serieId"
+                <select  name="serieId" defaultValue={product?.serieId.toString()}
             className={`relative z-20 w-full appearance-none rounded border border-stroke bg-transparent pl-5 py-3 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input`}
             >
            
@@ -129,7 +131,7 @@ export default function FormProduct({ categories, series, manufactures, product 
             <label className="mb-3 block text-sm font-medium text-black dark:text-white">
                     Manufacture
                   </label>
-                <select  name="manufactureId"
+                <select  name="manufactureId" defaultValue={product?.manufactureId.toString()}
             className={`relative z-20 w-full appearance-none rounded border border-stroke bg-transparent pl-5 py-3 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input`}
             >
            
@@ -200,7 +202,7 @@ export default function FormProduct({ categories, series, manufactures, product 
             key={i}
             className="relative aspect-square rounded bg-white shadow-md"
           >
-            <Image
+            <Image 
               src={`${process.env.NEXT_PUBLIC_SUPABASE_PUBLIC_IMAGE}/${image}`}
               alt="test"
               fill
