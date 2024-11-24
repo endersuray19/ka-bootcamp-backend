@@ -19,9 +19,10 @@ export async function  POST(request:Request) {
         if(!user){
             return new NextResponse("user not found",{status:404});
         }
-        if(user.roles != "ADMIN"){
+        if(user.roles != "ADMIN" && user.roles != "CUSTOMER"){
             return new NextResponse("your not admin",{status:401});
         }
+      
         const{password,...props} = user;
         if(!compareSync(body.password,password)){
             return new NextResponse("your not autorizze this",{status:401});

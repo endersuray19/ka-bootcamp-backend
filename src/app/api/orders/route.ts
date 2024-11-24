@@ -47,14 +47,14 @@ export async function POST(request: Request) {
         data: {
           status: "PENDING",
           userId: user.id,
+          address:body.address,
+          country:body.country,
+          postalCode:body.postalCode,
+          city:body.city,
           items: {
             create: (body.items as OrderPayload[]).map((item) => ({
               productId: item.productId,
               quantity: item.quantity,
-              address:body.address,
-              country:body.country,
-              postalCode:body.postalCode,
-              city:body.city,
             })),
           },
         },
@@ -73,10 +73,6 @@ export async function POST(request: Request) {
             quantity: item.quantity,
             productId: item.productId,
             orderId: createdOrder.id,
-            address:body.address,
-            country:body.country,
-            postalCode:body.postalCode,
-            city:body.city,
           },
         });
       }
