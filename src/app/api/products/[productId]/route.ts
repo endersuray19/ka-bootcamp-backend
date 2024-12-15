@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 import { ZodError } from "zod";
 import prisma from "@/lib/prisma";
 import { verifyUser } from "@/lib/verify";
+import { responeses } from "@/lib/respone";
 export async function PATCH(request:Request,{params}:{params:{
     productId:string
 }}){
@@ -91,3 +92,31 @@ export async function PATCH(request:Request,{params}:{params:{
           }
         }
       }
+      
+export async function GET(request:Request, {params} :{params:
+  { productId: string } },){
+  try{
+    
+    const product = await prisma.product.findFirst({
+      where:{
+        id:Number(params.productId),
+      },include:{
+        category:true,
+        manufacture:true,
+        serie:true,
+      }
+    })
+
+   
+    return responeses({data:product,success:true,message:"get serie succeess",status:200})
+  }
+  catch (err: any) {
+      return NextResponse.json({
+        data: null,
+        success: false,
+        message: err?.message || "Internal server error",
+      },{
+      status:500,
+     });
+    }
+  }

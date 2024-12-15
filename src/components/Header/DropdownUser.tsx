@@ -1,19 +1,42 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import ClickOutside from "@/components/ClickOutside";
-import { signOut } from "@/app/actions";
+import { signOut } from "@/app/auth/_components/actions";
 import { useRouter } from "next/navigation";
+import Cookie from "js-cookie";
+import axios from "axios";
+import { User } from "@prisma/client";
 
 
 const DropdownUser = () => {
+  const [user, setUser] = useState<User |null>(null);
   const router = useRouter();
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const getCurrentUser = async() =>{
+    const cookieStore = Cookie.get("token");
+    try{
+      const {data} = await axios.get("/api/auth/current",{
+        headers:{
+          Authorization:`Bearer ${cookieStore}`,
+        }
+      })
+      setUser(data.data);
+      console.log(data);
+    }
+    catch(err:any){
+      console.log(err);
+    }
+  }
+  
   const handleSignOut = async () => {
     const result = await signOut();
     console.log(result);
     router.push("/auth/signin");
   };
+  useEffect(()=>{
+    getCurrentUser();
+  },[])
   return (
     <ClickOutside onClick={() => setDropdownOpen(false)} className="relative">
       <Link
@@ -23,16 +46,16 @@ const DropdownUser = () => {
       >
         <span className="hidden text-right lg:block">
           <span className="block text-sm font-medium text-black dark:text-white">
-            Thomas Anree
+            {user?.name}
           </span>
-          <span className="block text-xs">UX Designer</span>
+          <span className="block text-xs">{user?.email}</span>
         </span>
 
         <span className="h-12 w-12 rounded-full">
           <Image
             width={112}
             height={112}
-            src={"/images/user/user-01.png"}
+            src={"/images/icon/abstract-user-flat-4.png"}
             style={{
               width: "auto",
               height: "auto",

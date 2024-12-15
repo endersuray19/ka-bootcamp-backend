@@ -7,17 +7,23 @@ import Link from "next/link";
 import Swal from "sweetalert2";
 import ActionForm from "./_components/formAction";
 import { Metadata } from "next";
+import { useSearchParams } from 'next/navigation';
 export const metadata:Metadata = {
   title:"Product",
   description:"Dashboard"
 }
-export default async function Product(){
+export default async function Product({ searchParams }: { searchParams: { page?: string } }){
+  
+  const page = parseInt(searchParams.page || "1", 10); 
+  const itemsPerPage = 10;
     const products = await prisma.product.findMany({
         include:{
             category:true,
             serie:true,
             manufacture:true,
-        }
+        },
+        take: itemsPerPage,
+        skip: (page - 1) * itemsPerPage,
 });
    
     console.log(products);
@@ -123,6 +129,19 @@ export default async function Product(){
         </div>
         
       ))}
+       <div className="flex justify-between items-center px-4 py-4">
+                    <Link
+                        href={`?page=${page - 1}`}
+                        className={`${
+                            page === 1 ? "pointer-events-none opacity-50" : ""
+                        } text-primary`}
+                    >
+                        Previous
+                    </Link>
+                    <Link href={`?page=${page + 1}`} className="text-primary">
+                        Next
+                    </Link>
+                </div>
     </div>
     
         </div>

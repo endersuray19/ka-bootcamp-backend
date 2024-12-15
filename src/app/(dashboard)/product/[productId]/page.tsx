@@ -3,7 +3,11 @@ import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb"
 import Form from "../_components/form"
 import prisma from "@/lib/prisma"
 import { notFound } from "next/navigation";
-
+import { Metadata } from "next";
+export const metadata:Metadata = {
+  title:"Update Product",
+  description:"Update a product"
+}
 export default async function UpdateProductPage({params}:{params:{productId:string}}){
     const categories = await prisma.category.findMany({
         where:{

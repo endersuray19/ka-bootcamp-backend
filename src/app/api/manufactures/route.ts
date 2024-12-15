@@ -1,3 +1,4 @@
+import prisma from "@/lib/prisma";
 import { responeses } from "@/lib/respone";
 import { verifyUser } from "@/lib/verify";
 import { manufactureSchema } from "@/schema/manufacture";
@@ -44,15 +45,23 @@ export async function POST(request:Request){
           }
         }
       }
-export async function GET(request:Request) {
-  const user = await verifyUser(request);
-  console.log(user);
-  if(!user){
-    return new NextResponse("unauthorized",{status:401});
-  }
-    const db = new PrismaClient();
-    
-    const manufactures = db.manufacture.findMany();
-
-    return responeses({data:manufactures,success:true,message:"get data manfucatures",status:200});
-}
+      export async function GET(request:Request) {
+        try{
+          // // const user = await verifyUser(request);
+          // console.log(user);
+          // if(!user){
+          //   return new NextResponse("unauthorized",{status:401});
+          // }
+        const manufacture = await prisma.manufacture.findMany() ;
+        return responeses({data:manufacture,success:true,message:"get serie succeess",status:200})
+    }
+    catch (err: any) {
+        return NextResponse.json({
+          data: null,
+          success: false,
+          message: err?.message || "Internal server error",
+        },{
+        status:500,
+       });
+        }
+      }

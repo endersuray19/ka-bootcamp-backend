@@ -1,5 +1,5 @@
 
-import { createCategory } from "@/app/actions";
+import { createCategory } from "@/app/auth/_components/actions";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import Link from "next/link";
 import {notFound, useRouter } from "next/navigation";
@@ -125,9 +125,9 @@ export default async function OrderItemId({params,}:{params:{orderId:string}}   
         </tr>
       </thead>
       <tbody>
-      {order.items.map((item,key)=>(
-          <tr >
-            <td className="border-b border-[#eee] px-4 py-5 pl-9 dark:border-strokedark xl:pl-11">
+      {order.items.map((item,index)=>(
+          <tr key={index}>
+            <td className="border-b border-[#eee] px-4 py-5 pl-9 dark:border-strokedark xl:pl-11" >
             
               <h5 className="font-medium text-black dark:text-white">
               <h1>{item.product.title}</h1>

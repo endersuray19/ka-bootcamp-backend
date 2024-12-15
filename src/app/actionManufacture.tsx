@@ -8,11 +8,12 @@ import {cookies} from 'next/headers';
 import { revalidatePath } from "next/cache";
 import { manufactureSchema } from "@/schema/manufacture";
 
-export async function createmanufacture(formData: FormData){
+export async function createmanufacture(formData: FormData, images:string[]){
     try{
       const body = {
         name: formData.get("name"),
         description: formData.get("description"),
+        image: images,
       }
       console.log(body);
       manufactureSchema.parse(body);
@@ -20,6 +21,7 @@ export async function createmanufacture(formData: FormData){
         data:{
           name: body.name as string,
           description: body.description as string,
+          images: body.image,
         }
       })
       return {success:true,message:"man created successfully"};
@@ -34,11 +36,12 @@ export async function createmanufacture(formData: FormData){
     }
   }
   
-export async function updateManufacture(formData: FormData, id:string) {
+export async function updateManufacture(formData: FormData, id:string,images:string[]) {
     try {
       const body = {
         name: formData.get("name"),
         description: formData.get("description"),
+        image: images,
       };
   
       console.log(body); // Check if the id is being passed
@@ -54,6 +57,7 @@ export async function updateManufacture(formData: FormData, id:string) {
         data: {
           name: body.name as string,
           description: body.description as string,
+          images: body.image,
         },
       });
       revalidatePath("/manufactures");

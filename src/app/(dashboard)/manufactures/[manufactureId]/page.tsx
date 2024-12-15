@@ -9,7 +9,7 @@ import prisma from "@/lib/prisma";
 import React from "react";
 import { Metadata } from "next";
 export const metadata:Metadata = {
-  title:"Manufacture - Update",
+  title:"Update Manufacture  ",
   description:"Update a Manufacture"
 }
 export default async function manufactureDetailId({params,}:{params:{manufactureId:string}}    ){ 

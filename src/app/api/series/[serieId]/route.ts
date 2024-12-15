@@ -4,6 +4,7 @@ import { serieSchema } from "@/schema/serie";
 import { number, ZodError } from "zod";
 import { responeses } from "@/lib/respone";
 import { verifyUser } from "@/lib/verify";
+import prisma from "@/lib/prisma";
 
 export async function PATCH(
   request: Request

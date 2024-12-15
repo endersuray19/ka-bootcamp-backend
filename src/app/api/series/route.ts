@@ -4,6 +4,7 @@ import { serieSchema } from "@/schema/serie";
 import { ZodError } from "zod";
 import { responeses } from "@/lib/respone";
 import { verifyUser } from "@/lib/verify";
+import prisma from "@/lib/prisma";
 
 export async function POST(request: Request) {
   try {
@@ -52,14 +53,8 @@ export async function POST(request: Request) {
 }
 export async function GET(request:Request){
   try{
-    const user = await verifyUser(request);
-    console.log(user);
-    if(!user){
-      return new NextResponse("unauthorized",{status:401});
-    }
-    const db = new PrismaClient();
-
-    const serie = await db.serie.findMany();
+    
+    const serie = await prisma.serie.findMany();
 
     // return NextResponse.json({
     //   data:categories,

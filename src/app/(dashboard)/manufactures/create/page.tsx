@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 import Form from "../_component/form";
 import { Metadata } from "next";
 export const metadata:Metadata = {
-  title:"Manufacture - Create",
+  title:"Create Manufacture ",
   description:"Create a Manufacture"
 }
 export default function CreateManufacture(){

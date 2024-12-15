@@ -67,15 +67,15 @@ export async function POST(request: Request) {
         },
       });
 
-      for (const item of body.items as OrderPayload[]) {
-        await ctx.orderItems.create({
-          data: {
-            quantity: item.quantity,
-            productId: item.productId,
-            orderId: createdOrder.id,
-          },
-        });
-      }
+      // for (const item of body.items as OrderPayload[]) {
+      //   await ctx.orderItems.create({
+      //     data: {
+      //       quantity: item.quantity,
+      //       productId: item.productId,
+      //       orderId: createdOrder.id,
+      //     },
+      //   });
+      // }
 
       // Update stock for each item
       for (const item of body.items as OrderPayload[]) {

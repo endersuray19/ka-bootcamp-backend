@@ -8,12 +8,13 @@ import { ZodError } from "zod";
 import {cookies} from 'next/headers';
 import { serieSchema } from "@/schema/serie";
 import { revalidatePath } from "next/cache";
-export async function createSeries(formData:FormData){
+export async function createSeries(formData:FormData, images:string[]){
     try{
         const body={
             name:formData.get("name"),
             isActive:formData.get("isActive"),
             description:formData.get("description"),
+            image: images,
         }
         serieSchema.parse(body);
         const serie = await prisma.serie.create({
@@ -21,6 +22,7 @@ export async function createSeries(formData:FormData){
                 name:body.name as string,
                 isActive:body.isActive === "1" ? true :false,
                 description:body.description as string,
+                images: body.image,
             }
         })
         revalidatePath("/series");
@@ -36,12 +38,13 @@ export async function createSeries(formData:FormData){
     }
     
 }
-export async function updateSeries (formData:FormData, id:string){
+export async function updateSeries (formData:FormData, id:string,images:string[]){
     try{
         const body={
             name:formData.get("name"),
             isActive:formData.get("isActive"),
             description:formData.get("description"),
+            image: images,
         }
         serieSchema.parse(body);
         const serie = await prisma.serie.update({
@@ -52,6 +55,7 @@ export async function updateSeries (formData:FormData, id:string){
                 name:body.name as string,
                 isActive:body.isActive === "1" ? true :false,
                 description:body.description as string,
+                images: body.image,
             }
         })
         revalidatePath("/series");

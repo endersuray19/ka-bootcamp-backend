@@ -2,9 +2,10 @@
 import axios from "axios";
 import Link from "next/link";
 import React from "react";
-import { signIn } from "@/actions";
+
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
+import { signIn } from "./actions";
 export default function Form(){
   const router = useRouter();
     const handleSignIn = async (formData:FormData) => {
@@ -17,6 +18,11 @@ export default function Form(){
           text:result.error || "Something went wrong"
         })
       }else{
+         Swal.fire({
+                    icon:"success",
+                    title:"Sign in Success",
+                    text:"succefully sign in"
+                })
         router.push("/"); 
       }
     }

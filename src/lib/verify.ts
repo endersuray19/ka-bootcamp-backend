@@ -4,6 +4,8 @@ export async function verifyUser(request:Request) {
     try{
         const authHeader = request.headers.get("authorization");
         const token = authHeader?.split(" ")[1];
+        console.log("authHeader : ",authHeader);
+        console.log("token : ",token);
         if(!token){
             return null;
         }

@@ -12,12 +12,13 @@ export async function middleware(request:NextRequest){
         return response;
     }
     const token = request.cookies.get("token")?.value;
-    // if(!token){
-    //     // return NextResponse.redirect(new URL("/auth/signin",request.url))
-    // }
-    // else{
+    console.log("token",token);
+    if(!token){
+        return NextResponse.redirect(new URL("/auth/signin",request.url))
+    }
+    else{
         return NextResponse.next(); 
-    //}
+    }
    
 }
 export const config ={

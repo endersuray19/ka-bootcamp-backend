@@ -38,6 +38,7 @@ model Category {
   name      String
   isActive  Boolean   @default(true)
   description String? @db.Text
+  images        Json?
   createdAt DateTime  @default(now())
   products  Product[]
 
@@ -49,6 +50,7 @@ model Serie {
   name      String
   description String  @default("test")
   isActive  Boolean   @default(true)
+  images        Json?
   createdAt DateTime  @default(now())
   products  Product[]
 
@@ -60,6 +62,7 @@ model Manufacture {
   name      String
   description   String?      @db.Text
   createdAt DateTime  @default(now())
+    images        Json?
   products  Product[]
 
   @@map("manufactures")

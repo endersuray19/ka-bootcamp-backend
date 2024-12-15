@@ -1,7 +1,7 @@
 "use client"
 
 import Swal from "sweetalert2";
-import { deleteCategory } from "@/app/actions";
+import { deleteCategory } from "@/app/auth/_components/actions";
 import { useRouter } from "next/navigation";
 interface ActionFormProps {
   categoryId: string;

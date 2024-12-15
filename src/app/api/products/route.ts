@@ -106,24 +106,38 @@ export async function POST(request:Request){
           }
         }
       }
-export async function GET(request:Request,{params}:{params:{productId : string}}) {
-    try{
-      // const user = await verifyUser(request);
-      // console.log(user);
-      // if(!user){
-      //   return new NextResponse("unauthorized",{status:401});
-      // }
-        const product = prisma.product.findMany();
-        return responeses({data:product,success:true,message:"get product succeess",status:200})
-    }
-    catch (err: any) {
-        return NextResponse.json({
-          data: null,
-          success: false,
-          message: err?.message || "Internal server error",
-        },{
-        status:500,
-       });
-      }
-    }
-  
+      export async function GET(request:Request){
+        try{
+          // const user = await verifyUser(request);
+          // console.log(user);
+          // if(!user){
+          //   return new NextResponse("unauthorized",{status:401});
+          // }
+       
+      
+          const products = await prisma.product.findMany({
+            include:{
+              category:true,
+              serie:true,
+              manufacture:true,
+            }
+          });
+      
+          // return NextResponse.json({
+          //   data:categories,
+          //   success:true,
+          //   message:"Get Categories success",
+          // })
+          return responeses({data:products,success:true,message:"get product succeess",status:200})
+        }
+        catch (err: any) {
+            return NextResponse.json({
+              data: null,
+              success: false,
+              message: err?.message || "Internal server error",
+            },{
+            status:500,
+           });
+          }
+        }
+      

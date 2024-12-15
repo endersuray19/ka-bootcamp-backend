@@ -67,12 +67,13 @@ export async function signOut(){
   cookies().delete("token");
   return { success: "Sign out success" };
 }
-export async function createCategory(formData: FormData){
+export async function createCategory(formData: FormData, images:string[]){
   try{
     const body = {
       name: formData.get("name"),
       isActive: formData.get("isActive"),
       description: formData.get("description"),
+      image: images,
     }
     console.log(body);
     categorySchema.parse(body);
@@ -81,6 +82,7 @@ export async function createCategory(formData: FormData){
         name: body.name as string,
         isActive: body.isActive === "1" ? true : false,
         description: body.description as string,
+        images: body.image,
       }
     })
     return {success:true,message:"category created successfully"};
@@ -94,12 +96,13 @@ export async function createCategory(formData: FormData){
       } 
   }
 }
-export async function updateCategory(formData: FormData, id:string) {
+export async function updateCategory(formData: FormData, id:string, images:string[]) {
   try {
     const body = {
       name: formData.get("name"),
       isActive: formData.get("isActive"),
       description: formData.get("description"),
+      image: images,
     };
 
     console.log(body); // Check if the id is being passed
@@ -116,6 +119,7 @@ export async function updateCategory(formData: FormData, id:string) {
         name: body.name as string,
         isActive: body.isActive === "1" ? true : false,
         description: body.description as string,
+        images: body.image,
       },
     });
     revalidatePath("/categories");

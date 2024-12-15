@@ -5,7 +5,7 @@ import {compareSync, hashSync} from"bcrypt";
 import { ZodError } from "zod";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { SignJWT } from "jose";
-
+import Swal from "sweetalert2";
 export async function  POST(request:Request) {
     try{
         const body = await request.json();
@@ -19,8 +19,8 @@ export async function  POST(request:Request) {
         if(!user){
             return new NextResponse("user not found",{status:404});
         }
-        if(user.roles != "ADMIN" && user.roles != "CUSTOMER"){
-            return new NextResponse("your not admin",{status:401});
+        if(user.roles != "ADMIN"){
+            return new NextResponse("your not ADMIN",{status:401});
         }
       
         const{password,...props} = user;
@@ -37,7 +37,9 @@ export async function  POST(request:Request) {
         .setIssuedAt()
         .setExpirationTime("1d")
         .sign(secret);
+       
         return NextResponse.json({...props,token},{status:200});
+        
     }
     
     catch(err:any){

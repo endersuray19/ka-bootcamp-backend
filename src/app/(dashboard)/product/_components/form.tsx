@@ -26,11 +26,25 @@ export default function FormProduct({ categories, series, manufactures, product 
   const router = useRouter();
 
   async function handleSubmit(formData: FormData) {
-    
+    setLoading(true);
+    Swal.fire({
+      title:"Submitting....",
+      text:"Please wait while your product is being submitted.",
+      icon:"info",
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading(); 
+      },
+    })
     const results = product ? await updateProduct(formData, product.id.toString() , images) : await createProduct(formData, images) ;
 
     if (results.success) {
       localStorage.setItem("images",JSON.stringify([]));
+      Swal.fire({
+        icon: "success",
+        title: "Success",
+        text: product ? "Product updated successfully" : "Product created successfully",
+      })
       toast.success("Product created successfully");
       router.push("/product");
     } else {
@@ -45,6 +59,15 @@ export default function FormProduct({ categories, series, manufactures, product 
     event: React.ChangeEvent<HTMLInputElement>,
   ) {
     try {
+      Swal.fire({
+        title: "Uploading...",
+        text: "Please wait while your images are being uploaded.",
+        icon: "info",
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading(); 
+        },
+      });
       const files = event.target.files ? Array.from(event.target.files) : [];
 
       const formData = new FormData();
@@ -63,10 +86,20 @@ export default function FormProduct({ categories, series, manufactures, product 
         "images",
         JSON.stringify([...images, ...data.uploadedFiles]),
       );
-
+      Swal.close();
+      Swal.fire({
+        title: "Success",
+        text: "Images uploaded successfully.",
+        icon: "success",
+      });
       toast.success("Upload file success");
     } catch (err: any) {
       console.log(err);
+      Swal.fire({
+        title: "Error",
+        text: "An error occurred while uploading images.",
+        icon: "error",
+      })
     }
     
   }
@@ -102,7 +135,7 @@ export default function FormProduct({ categories, series, manufactures, product 
                     name="title"
                     required
                     type="text"
-                    placeholder="Enter Category Name"
+                    placeholder="Enter Product Name"
                     className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                   />
                 </div>
@@ -150,7 +183,7 @@ export default function FormProduct({ categories, series, manufactures, product 
                     name="price"
                     required
                     type="number"
-                    placeholder="Enter Category Name"
+                    placeholder="Enter Price Product"
                     className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                   />
                 </div>
@@ -163,7 +196,7 @@ export default function FormProduct({ categories, series, manufactures, product 
                     name="stock"
                     required
                     type="number"
-                    placeholder="Enter Category Name"
+                    placeholder="Enter Stock Product"
                     className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                   />
                 </div>
@@ -174,7 +207,7 @@ export default function FormProduct({ categories, series, manufactures, product 
                     defaultValue={product?.description||""}
                     name="description"
                     rows={6}
-                    placeholder="Type your descr"
+                    placeholder="Type Product description"
                     className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                   ></textarea>
                 </div>

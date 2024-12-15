@@ -5,10 +5,12 @@ import dayjs from "dayjs";
 import Link from "next/link";
 import Swal from "sweetalert2";
 import ActionForm from "./_component/formAction";
-// import DeleteCategories from "./_component/form";
-// import ActionForm from "./_component/formAction";
-// import Form from "./_component/form";
-
+import Image from "next/image";
+import { Metadata } from "next";
+export const metadata:Metadata = {
+  title:"Serie",
+  description:"Dashboard of a Serie"
+}
 export default async function Series(){
     
     const series = await prisma.serie.findMany();     
@@ -43,10 +45,25 @@ export default async function Series(){
           <tbody>
             {series.map((series, key) => (
               <tr key={key}>
-                <td className="border-b border-[#eee] px-4 py-5 pl-9 dark:border-strokedark xl:pl-11">
+                  <td className="border-b border-[#eee] px-4 py-5 pl-9 dark:border-strokedark xl:pl-11">
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+                <div className="h-12.5 w-15 rounded-md">
+                {series?.images && Array.isArray(series.images) && series.images.length > 0 ? (
+                <Image
+                  src={`${process.env.SUPABASE_PUBLIC_IMAGE}/${series.images[0]}`}
+                  width={60}
+                  height={50}
+                  alt="series"
+                />
+              ) : (
+                <span className="text-gray-500 text-sm">No Image Available</span>
+              )}
+              </div>
                   <h5 className="font-medium text-black dark:text-white">
                     {series.name}
                   </h5>
+                  </div>
+          
                 </td>
                 <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
                   <p className="text-black dark:text-white">
