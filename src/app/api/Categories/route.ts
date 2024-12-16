@@ -48,12 +48,8 @@ export async function POST(request:Request){
   }
   export async function GET(request:Request) {
     try{
-      // // const user = await verifyUser(request);
-      // console.log(user);
-      // if(!user){
-      //   return new NextResponse("unauthorized",{status:401});
-      // }
     const category = await prisma.category.findMany() ;
+    console.log(category);
     return responeses({data:category,success:true,message:"get serie succeess",status:200})
 }
 catch (err: any) {

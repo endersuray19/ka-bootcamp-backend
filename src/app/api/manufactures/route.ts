@@ -54,6 +54,7 @@ export async function POST(request:Request){
           // }
         const manufacture = await prisma.manufacture.findMany() ;
         return responeses({data:manufacture,success:true,message:"get serie succeess",status:200})
+        console.log(manufacture);
     }
     catch (err: any) {
         return NextResponse.json({
