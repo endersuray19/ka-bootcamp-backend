@@ -28,7 +28,7 @@ export async function signIn(formData: FormData) {
 
     // Cek apakah user ada didalam database
     if (!user) {
-      throw new Error("Email or password is wrong");
+      throw new Error("your Email or password is wrong");
     }
 
     if (user?.roles !== "ADMIN") {
