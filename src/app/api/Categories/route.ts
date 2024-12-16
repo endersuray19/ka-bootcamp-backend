@@ -46,9 +46,7 @@ export async function POST(request:Request){
       }
     }
   }
-  export async function GET(request:Request,{params}:{params :{
-    categoryId:string;
-  }}) {
+  export async function GET(request:Request) {
     try{
       // // const user = await verifyUser(request);
       // console.log(user);
