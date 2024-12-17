@@ -9,25 +9,48 @@ import { signIn } from "./actions";
 export default function Form(){
   const router = useRouter();
   const[loading,setLoading] = useState(false);
+
     const handleSignIn = async (formData:FormData) => {
-      const result = await signIn(formData);
-      setLoading(true);
-      console.log(result);
-      if(result.error){
+      try{ 
         Swal.fire({
-          icon:"error",
-          title:"Sign in failed",
-          text:result.error || "Something went wrong"
-        })
-      }else{
-         Swal.fire({
-                    icon:"success",
-                    title:"Sign in Success",
-                    text:"succefully sign in"
-                })
-        router.push("/"); 
+                title: "Uploading...",
+                text: "Please wait while your images are being uploaded.",
+                icon: "info",
+                allowOutsideClick: false,
+                didOpen: () => {
+                  Swal.showLoading(); 
+                },
+              });
+        const result = await signIn(formData);
+        setLoading(true);
+        console.log(loading)
+        if(result.error){
+           Swal.close();
+          Swal.fire({
+            icon:"error",
+            title:"Sign in failed",
+            text:result.error || "Something went wrong"
+          })
+        }else{
+           Swal.close();
+           Swal.fire({
+                      icon:"success",
+                      title:"Sign in Success",
+                      text:"succefully sign in"
+                  })
+          router.push("/"); 
+        }
+      }catch(error){
+        console.log(error)
+      }finally{
+        setLoading(false);
       }
+      
+     
+      
+      
     }
+   
     return(
         <form action={handleSignIn}>
         <div className="mb-4">
@@ -109,7 +132,7 @@ export default function Form(){
           />
         </div>
 
-        <button className="flex w-full items-center justify-center gap-3.5 rounded-lg border border-stroke bg-gray p-4 hover:bg-opacity-50 dark:border-strokedark dark:bg-meta-4 dark:hover:bg-opacity-50">
+        <button className="flex w-full items-center justify-center gap-3.5 rounded-lg border border-stroke bg-gray p-4 hover:bg-opacity-50 dark:border-strokedark dark:bg-meta-4 dark:hover:bg-opacity-50" disabled={loading}>
           <span>
             <svg
               width="20"
