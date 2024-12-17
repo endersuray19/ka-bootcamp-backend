@@ -3,16 +3,22 @@ import prisma from "@/lib/prisma";
 import dayjs from "dayjs";
 import Link from "next/link";
 import { Metadata } from "next";
+import { useSearchParams } from 'next/navigation';
 export const metadata:Metadata = {
   title:"Order ",
   description:"Dashboard Order"
 }
-export default async function OrderPage(){
+export default async function OrderPage({searchParams}:{searchParams:{page?:string}}){
+  const page = parseInt(searchParams.page || "1",10);
+  const itemPerPage = 10;
     const orders = await prisma.order.findMany({
         include:{
             user:true,
-        }
+        },
+        take:itemPerPage,
+        skip:(page-1)*itemPerPage,
     });
+
 console.log(orders);
     return (
         <div>
@@ -26,7 +32,7 @@ console.log(orders);
       <thead>
         <tr className="bg-gray-2 text-left dark:bg-meta-4">
           <th className="min-w-[220px] px-4 py-4 font-medium text-black dark:text-white xl:pl-11">
-            Name
+            Names
           </th>
           <th className="min-w-[220px] px-4 py-4 font-medium text-black dark:text-white xl:pl-11">
             Address
@@ -94,6 +100,19 @@ console.log(orders);
       </tbody>
     </table>
   </div>
+  <div className="flex justify-between items-center px-4 py-4">
+                    <Link
+                        href={`?page=${page - 1}`}
+                        className={`${
+                            page === 1 ? "pointer-events-none opacity-50" : ""
+                        } text-primary`}
+                    >
+                        Previous
+                    </Link>
+                    <Link href={`?page=${page + 1}`} className="text-primary">
+                        Next
+                    </Link>
+                </div>
 </div>
 </div>
 )

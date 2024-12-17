@@ -22,11 +22,14 @@ export default async function Product({ searchParams }: { searchParams: { page?:
             serie:true,
             manufacture:true,
         },
+        orderBy:{
+          createdAt:'desc',
+        },
         take: itemsPerPage,
         skip: (page - 1) * itemsPerPage,
+        
 });
-   
-    console.log(products);
+console.log("Fetched products:", products);
     return(
         <div>
              <Link className="bg-primary text-white px-4 py-2 mb-3 inline-block rounded-md" href="/product/create">

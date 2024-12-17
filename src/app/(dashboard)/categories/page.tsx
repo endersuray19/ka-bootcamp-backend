@@ -96,6 +96,7 @@ export default async function Categories(){
                     
                     
                   </div>
+                  
                 </td>
               </tr>
             ))}
