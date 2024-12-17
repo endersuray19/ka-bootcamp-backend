@@ -1,15 +1,17 @@
 "use client"
 import axios from "axios";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import { signIn } from "./actions";
 export default function Form(){
   const router = useRouter();
+  const[loading,setLoading] = useState(false);
     const handleSignIn = async (formData:FormData) => {
       const result = await signIn(formData);
+      setLoading(true);
       console.log(result);
       if(result.error){
         Swal.fire({
@@ -38,6 +40,7 @@ export default function Form(){
               type="email"
               placeholder="Enter your email"
               className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+             disabled ={loading}
             />
 
             <span className="absolute right-4 top-4">
@@ -70,6 +73,7 @@ export default function Form(){
               type="password"
               placeholder="6+ Characters, 1 Capital letter"
               className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+              disabled ={loading}
             />
 
             <span className="absolute right-4 top-4">
@@ -101,6 +105,7 @@ export default function Form(){
             type="submit"
             value="Sign In"
             className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90"
+            disabled ={loading}
           />
         </div>
 
