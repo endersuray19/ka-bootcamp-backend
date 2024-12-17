@@ -13,8 +13,8 @@ export default function Form(){
     const handleSignIn = async (formData:FormData) => {
       try{ 
         Swal.fire({
-                title: "Uploading...",
-                text: "Please wait while your images are being uploaded.",
+                title: "Sign In...",
+                text: "Please wait while the system processes your sign-in request.",
                 icon: "info",
                 allowOutsideClick: false,
                 didOpen: () => {
