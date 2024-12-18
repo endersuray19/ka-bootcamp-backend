@@ -14,6 +14,7 @@ export const metadata:Metadata = {
   description:"Detail from Order"
 }
 export default async function OrderItemId({params,}:{params:{orderId:string}}    ){ 
+  
     const order = await prisma.order.findUnique({
         where:{
             id:Number(params.orderId)
@@ -36,6 +37,8 @@ export default async function OrderItemId({params,}:{params:{orderId:string}}   
    if(!order){
     return notFound();
    }
+   const totalItem= order.items.reduce((total,item)=>total +item.quantity,0);
+   const totalPrice = order.items.reduce((total,item)=> total + item.quantity * item.product.price,0)
     return(
         <div>
                 <Breadcrumb pageName="Detail Order" />
@@ -43,16 +46,16 @@ export default async function OrderItemId({params,}:{params:{orderId:string}}   
     <table className="w-full table-auto">
       <thead>
         <tr className="bg-gray-2 text-left dark:bg-meta-4">
-          <th className="min-w-[220px] px-4 py-4 font-medium text-black dark:text-white xl:pl-11">
+          <th className="min-w-[220px] px-4 py-4 font-medium text-black dark:text-white ">
             Name
           </th>
-          <th className="min-w-[150px] px-4 py-4 font-medium text-black dark:text-white xl:pl-11">
+          <th className="min-w-[150px] px-4 py-4 font-medium text-black dark:text-white ">
             Address
           </th>
-          <th className="min-w-[150px] px-4 py-4 font-medium text-black dark:text-white xl:pl-11">
+          <th className="min-w-[150px] px-4 py-4 font-medium text-black dark:text-white ">
             Country
           </th>
-          <th className="min-w-[150px] px-4 py-4 font-medium text-black dark:text-white xl:pl-11">
+          <th className="min-w-[150px] px-4 py-4 font-medium text-black dark:text-white ">
             Postal Code
           </th>
           <th className="min-w-[150px] px-4 py-4 font-medium text-black dark:text-white">
@@ -65,33 +68,33 @@ export default async function OrderItemId({params,}:{params:{orderId:string}}   
       </thead>
       <tbody>
        
-          <tr >
-            <td className="border-b border-[#eee] px-4 py-5 pl-9 dark:border-strokedark xl:pl-11">
+          <tr className="bg-white">
+            <td className="border-b border-[#eee] px-4 py-5  dark:border-strokedark ">
               <h5 className="font-medium text-black dark:text-white">
                 {order.user.name}
               </h5>
             </td>
-            <td className="border-b border-[#eee] px-4 py-5 pl-9 dark:border-strokedark xl:pl-11">
+            <td className="border-b border-[#eee] px-4 py-5  dark:border-strokedark ">
               <h5 className="font-medium text-black dark:text-white">
               {order.address}
               </h5>
             </td>
-            <td className="border-b border-[#eee] px-4 py-5 pl-9 dark:border-strokedark xl:pl-11">
+            <td className="border-b border-[#eee] px-4 py-5  dark:border-strokedark ">
               <h5 className="font-medium text-black dark:text-white">
               {order.country}
               </h5>
             </td>
-            <td className="border-b border-[#eee] px-4 py-5 pl-9 dark:border-strokedark xl:pl-11">
+            <td className="border-b border-[#eee] px-4 py-5  dark:border-strokedark ">
             <h5 className="font-medium text-black dark:text-white">
             {order.postalCode}
             </h5>
             </td>
-            <td className="border-b border-[#eee] px-4 py-5 pl-9 dark:border-strokedark xl:pl-11">
+            <td className="border-b border-[#eee] px-4 py-5  dark:border-strokedark ">
              <h5 className="font-medium text-black dark:text-white">
             {order.city}
               </h5>
             </td>
-            <td className="border-b border-[#eee] px-4 py-5 pl-9 dark:border-strokedark xl:pl-11">
+            <td className="border-b border-[#eee] px-4 py-5  dark:border-strokedark ">
             <h5 className="font-medium text-black dark:text-white">
                 {dayjs(order.createdAt).format("DD MMMM YYYY")}
                 </h5>
@@ -104,58 +107,92 @@ export default async function OrderItemId({params,}:{params:{orderId:string}}   
   </div>
   <div className="max-w-full overflow-x-auto">
     <table className="w-full table-auto">
-      <thead>
+      <thead className="bg-white">
         <tr className="bg-gray-2 text-left dark:bg-meta-4">
-          <th className="min-w-[220px] px-4 py-4 font-medium text-black dark:text-white xl:pl-11">
+          <th className="min-w-[220px] px-4 py-4 font-medium text-black dark:text-white ">
             Title
           </th>
-          <th className="min-w-[150px] px-4 py-4 font-medium text-black dark:text-white xl:pl-11">
+          <th className="min-w-[150px] px-4 py-4 font-medium text-black dark:text-white ">
             Category
           </th>
-          <th className="min-w-[150px] px-4 py-4 font-medium text-black dark:text-white xl:pl-11">
+          <th className="min-w-[150px] px-4 py-4 font-medium text-black dark:text-white ">
             Manufacture
           </th>
-          <th className="min-w-[150px] px-4 py-4 font-medium text-black dark:text-white xl:pl-11">
+          <th className="min-w-[150px] px-4 py-4 font-medium text-black dark:text-white ">
             Series
           </th>
-          <th className="min-w-[150px] px-4 py-4 font-medium text-black dark:text-white">
+          <th className="min-w-[100px] px-4 py-4 font-medium text-black dark:text-white">
             Quantity
+          </th>
+          <th className="min-w-[250px] px-4 py-4 font-medium text-black dark:text-white">
+            Price
           </th>
          
         </tr>
       </thead>
-      <tbody>
+      <tbody className="bg-white" >
       {order.items.map((item,index)=>(
           <tr key={index}>
-            <td className="border-b border-[#eee] px-4 py-5 pl-9 dark:border-strokedark xl:pl-11" >
-            
-              <h5 className="font-medium text-black dark:text-white">
+            <td className="border-b border-[#eee] flex px-4 py-5  dark:border-strokedark " >
+            <div className="flex flex-col gap-1 sm:flex-row sm:items-center">
+            <Image
+                className="hover:scale-100 translate-x-2"
+                  src={`${process.env.SUPABASE_PUBLIC_IMAGE}/${(item.product.images as string[])[0]}`}
+                  width={60}
+                  height={50}
+                  alt="Product"
+                />
+              <h5 className="ml-5 font-medium text-black  dark:text-white">
               <h1>{item.product.title}</h1>
               </h5>
+              </div>
             </td>
-            <td className="border-b border-[#eee] px-4 py-5 pl-9 dark:border-strokedark xl:pl-11">
-              <h5 className="font-medium text-black dark:text-white">
+            <td className="border-b border-[#eee] px-4 py-5  dark:border-strokedark ">
+              <h5 className="font-medium text-black  dark:text-white">
               {item.product.category.name}
               </h5>
             </td>
-            <td className="border-b border-[#eee] px-4 py-5 pl-9 dark:border-strokedark xl:pl-11">
-              <h5 className="font-medium text-black dark:text-white">
+            <td className="border-b border-[#eee] px-4 py-5  dark:border-strokedark ">
+              <h5 className="font-medium text-black  dark:text-white">
               {item.product.manufacture.name}
               </h5>
             </td>
-            <td className="border-b border-[#eee] px-4 py-5 pl-9 dark:border-strokedark xl:pl-11">
-            <h5 className="font-medium text-black dark:text-white">
+            <td className="border-b border-[#eee] px-4 py-5  dark:border-strokedark ">
+            <h5 className="font-medium text-black  dark:text-white">
             {item.product.serie.name}
             </h5>
             </td>
-            <td className="border-b border-[#eee] px-4 py-5 pl-9 dark:border-strokedark xl:pl-11">
-             <h5 className="font-medium text-black dark:text-white">
+            <td className="border-b border-[#eee] px-4 py-5  dark:border-strokedark ">
+             <h5 className="font-medium text-black  dark:text-white">
              {item.quantity}
               </h5>
             </td>
-           
+            <td className="border-b border-[#eee] px-4 py-5  dark:border-strokedark ">
+             <h5 className="font-medium text-black  dark:text-white">
+             Rp {item.product.price.toLocaleString("id-ID")}.00
+              </h5>
+            </td>
           </tr>
          ))}
+         <tr className=" bg-white text-left">
+         
+          <th className="min-w-[450px]  border-b border-[#eee] px-4 py-4 font-medium text-black dark:text-white" colSpan={4}>
+            Total
+          </th>
+
+          <th className=" px-4 py-5 border-b border-[#eee] font-medium text-black dark:text-white">
+            {totalItem}
+          </th>
+          
+          <th className=" px-4 py-5 border-b border-[#eee] font-medium text-black dark:text-white">
+          Rp  {totalPrice.toLocaleString("id-ID")}.00
+          </th>
+         
+         </tr>
+         <tr className="bg-white text-left border-t-1 border-gray-700">
+          <th colSpan={5}></th>
+          <th className=" border-b border-[#eee] px-4 py-5 font-medium text-black dark:text-white">Rp {(totalItem * totalPrice).toLocaleString("id-ID")}.00</th>
+         </tr>
       </tbody>
     </table>
   </div>

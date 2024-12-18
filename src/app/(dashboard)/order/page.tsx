@@ -15,8 +15,12 @@ export default async function OrderPage({searchParams}:{searchParams:{page?:stri
         include:{
             user:true,
         },
+        orderBy:{
+          createdAt:"desc",
+        },
         take:itemPerPage,
         skip:(page-1)*itemPerPage,
+        
     });
 
 console.log(orders);
@@ -27,46 +31,62 @@ console.log(orders);
     {/* <Link className="bg-primary text-white px-4 py-2 mb-3 inline-block rounded-md" href="/us/create">
    Add Users
     </Link> */}
-  <div className="max-w-full overflow-x-auto">
-    <table className="w-full table-auto">
+  <div className="max-w-full overflow-x-auto ">
+    <table className="w-full table-auto ">
       <thead>
         <tr className="bg-gray-2 text-left dark:bg-meta-4">
-          <th className="min-w-[220px] px-4 py-4 font-medium text-black dark:text-white xl:pl-11">
+          <th className="min-w-[150px] px-4 py-4  font-medium text-black dark:text-white ">
             Names
           </th>
-          <th className="min-w-[220px] px-4 py-4 font-medium text-black dark:text-white xl:pl-11">
+          <th className="min-w-[200px] px-4 py-4  font-medium text-black dark:text-white ">
             Address
           </th>
-          <th className="min-w-[220px] px-4 py-4 font-medium text-black dark:text-white xl:pl-11">
+          <th className="min-w-[80px] px-4 py-4  font-medium text-black dark:text-white ">
+            City
+          </th>
+          <th className="min-w-[80px] px-4 py-4  font-medium text-black dark:text-white ">
+            Country
+          </th>
+          <th className="min-w-[150px] px-4 py-4  font-medium text-black dark:text-white ">
             Postal Code
           </th>
-          <th className="min-w-[180px] px-4 py-4 font-medium text-black dark:text-white">
+          <th className="min-w-[150px] px-4 py-4  font-medium text-black dark:text-white">
             Created date
           </th>
-          <th className="min-w-[150px] px-4 py-4 font-medium text-black dark:text-white">
+          <th className="min-w-[30px] px-4 py-4  font-medium text-black dark:text-white">
             Action
           </th>
         </tr>
       </thead>
       <tbody>
         {orders.map((order, key) => (
-          <tr key={key}>
-            <td className="border-b border-[#eee] px-4 py-5 pl-9 dark:border-strokedark xl:pl-11">
+          <tr key={key} className="text-left">
+            <td className="border-b border-[#eee] px-4 py-2  dark:border-strokedark ">
               <h5 className="font-medium text-black dark:text-white">
                 {order.user.name}
               </h5>
             </td>
-            <td className="border-b border-[#eee] px-4 py-5 pl-9 dark:border-strokedark xl:pl-11">
+            <td className="border-b border-[#eee] px-4 py-5  dark:border-strokedark ">
               <h5 className="font-medium text-black dark:text-white">
               {order.address}
               </h5>
             </td>
-            <td className="border-b border-[#eee] px-4 py-5 pl-9 dark:border-strokedark xl:pl-11">
+            <td className="border-b border-[#eee] px-4 py-5  dark:border-strokedark ">
+              <h5 className="font-medium text-black dark:text-white">
+              {order.city}
+              </h5>
+            </td>
+            <td className="border-b border-[#eee] px-4 py-5  dark:border-strokedark ">
+              <h5 className="font-medium text-black dark:text-white">
+              {order.country}
+              </h5>
+            </td>
+            <td className="border-b border-[#eee] px-4 py-5  dark:border-strokedark ">
               <h5 className="font-medium text-black dark:text-white">
               {order.postalCode}
               </h5>
             </td>
-            <td className="border-b border-[#eee] px-4 py-5 pl-9 dark:border-strokedark xl:pl-11">
+            <td className="border-b border-[#eee] px-4 py-5  dark:border-strokedark ">
             <h5 className="font-medium text-black dark:text-white">
                 {dayjs(order.createdAt).format("DD MMMM YYYY")}
                 </h5>
