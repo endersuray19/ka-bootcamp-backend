@@ -68,7 +68,7 @@ export default async function OrderItemId({params,}:{params:{orderId:string}}   
       </thead>
       <tbody>
        
-          <tr className="bg-white">
+          <tr className="bg-gray-2 text-left dark:bg-[#24303F]">
             <td className="border-b border-[#eee] px-4 py-5  dark:border-strokedark ">
               <h5 className="font-medium text-black dark:text-white">
                 {order.user.name}
@@ -132,7 +132,7 @@ export default async function OrderItemId({params,}:{params:{orderId:string}}   
       </thead>
       <tbody className="bg-white" >
       {order.items.map((item,index)=>(
-          <tr key={index}>
+          <tr key={index} className="bg-gray-2 text-left dark:bg-[#24303F]">
             <td className="border-b border-[#eee] flex px-4 py-5  dark:border-strokedark " >
             <div className="flex flex-col gap-1 sm:flex-row sm:items-center">
             <Image
@@ -174,24 +174,24 @@ export default async function OrderItemId({params,}:{params:{orderId:string}}   
             </td>
           </tr>
          ))}
-         <tr className=" bg-white text-left">
+         <tr className=" bg-gray-2 text-left text-black dark:bg-[#24303F]">
          
-          <th className="min-w-[450px]  border-b border-[#eee] px-4 py-4 font-medium text-black dark:text-white" colSpan={4}>
+          <td className="border-b border-[#eee] px-4 py-5  dark:border-strokedark dark:text-white" colSpan={4}>
             Total
-          </th>
+          </td>
 
-          <th className=" px-4 py-5 border-b border-[#eee] font-medium text-black dark:text-white">
+          <td className=" border-b border-[#eee] px-4 py-5  dark:border-strokedark dark:text-white">
             {totalItem}
-          </th>
+          </td>
           
-          <th className=" px-4 py-5 border-b border-[#eee] font-medium text-black dark:text-white">
+          <td className=" border-b border-[#eee] px-4 py-5  dark:border-strokedark dark:text-white">
           Rp  {totalPrice.toLocaleString("id-ID")}.00
-          </th>
+          </td>
          
          </tr>
-         <tr className="bg-white text-left border-t-1 border-gray-700">
-          <th colSpan={5}></th>
-          <th className=" border-b border-[#eee] px-4 py-5 font-medium text-black dark:text-white">Rp {(totalItem * totalPrice).toLocaleString("id-ID")}.00</th>
+         <tr className="bg-gray-2 text-left dark:bg-[#24303F] text-black">
+          <td colSpan={5} className="border-b border-[#eee] px-4 py-5  dark:border-strokedark dark:text-white"></td>
+          <td className="border-[#eee] px-4 py-5  dark:border-strokedark dark:text-white">Rp {(totalItem * totalPrice).toLocaleString("id-ID")}.00</td>
          </tr>
       </tbody>
     </table>

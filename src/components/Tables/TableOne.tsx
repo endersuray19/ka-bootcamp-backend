@@ -73,7 +73,7 @@ const TableOne = ({products}:TableOneProps) => {
           </div>
           <div className="hidden p-2.5 text-center sm:block xl:p-5">
             <h5 className="text-sm font-medium uppercase xsm:text-base">
-              Conversion
+            Manufacture
             </h5>
           </div>
           <div className="p-2.5 text-center xl:p-5">
@@ -114,7 +114,7 @@ const TableOne = ({products}:TableOneProps) => {
               <p className="text-black-5">{product.manufacture.name}</p>
             </div>
             <div className="flex items-center justify-center p-2.5 xl:p-5">
-              <p className="text-meta-3">Rp {product.price}</p>
+              <p className="text-meta-3">Rp {product.price.toLocaleString("id-ID")}.00</p>
             </div>
 
             <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
