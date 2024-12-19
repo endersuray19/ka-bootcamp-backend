@@ -90,7 +90,7 @@ const TableTwo = () => {
           </div>
           <div className="col-span-1 flex items-center">
             <p className="text-sm text-black dark:text-white">
-              Rp.{product.price.toLocaleString("id,ID")},00
+              Rp.{product.price.toLocaleString("id-ID")},00
             </p>
           </div>
           <div className="col-span-1 flex items-center">
