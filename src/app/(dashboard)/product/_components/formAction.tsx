@@ -12,7 +12,7 @@ export default function ActionFormProps({ productId }: ActionFormProps){
     const handleDelete = async () => {
       const { isConfirmed } = await Swal.fire({
         title: 'Are you sure?',
-        text: "You want to delete this category?",
+        text: "You want to delete this product ?",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -26,7 +26,7 @@ export default function ActionFormProps({ productId }: ActionFormProps){
       if (result.success) {
         await Swal.fire({
           title: 'Deleted!',
-          text: 'Category has been deleted.',
+          text: 'Product has been deleted.',
           icon: 'success'
         });
         router.refresh();

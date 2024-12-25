@@ -18,32 +18,32 @@ export const menuGroups = [
       },
       {
         icon: <ChartBarStacked size={18} />,
-        label: "Category",
+        label: "Categories",
         route: "/categories",
       },
       {
         icon: <ChartBarStacked size={18} />,
-        label: "Serie",
+        label: "Series",
         route: "/series",
       },
       {
         icon: <ChartBarStacked size={18} />,
-        label: "manufacture",
+        label: "Manufactures",
         route: "/manufactures",
       },
       {
         icon: <ShoppingBag size={18} />,
-        label: "Product",
+        label: "Products",
         route: "/product",
       },
       {
         icon: <ShoppingCart size={18} />,
-        label: "Order",
+        label: "Orders",
         route: "/order",
       },
       {
         icon: <User size={18} />,
-        label: "User",
+        label: "Users",
         route: "/user",
       },
     ],
