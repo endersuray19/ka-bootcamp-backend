@@ -50,7 +50,7 @@ export async function POST(request:Request){
     try{
     const category = await prisma.category.findMany() ;
     console.log(category);
-    return responeses({data:category,success:true,message:"get serie succeess",status:200})
+    return responeses({data:category,success:true,message:"get category succeess",status:200})
 }
 catch (err: any) {
     return NextResponse.json({
