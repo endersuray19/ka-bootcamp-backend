@@ -2,6 +2,12 @@ import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import prisma from "@/lib/prisma";
 import dayjs from "dayjs";
 import { Link } from "lucide-react";
+import { Metadata } from "next";
+import { useSearchParams } from 'next/navigation';
+export const metadata:Metadata = {
+  title:"User ",
+  description:"Dashboard User"
+}
 export default async function UsersPage(){
     const users = await prisma.user.findMany();
 

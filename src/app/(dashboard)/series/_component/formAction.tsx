@@ -12,7 +12,7 @@ export default function ActionForm({ serieId }: ActionFormProps){
     const handleDelete = async () => {
       const { isConfirmed } = await Swal.fire({
         title: 'Are you sure?',
-        text: "You want to delete this category?",
+        text: "You want to delete this serie?",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',

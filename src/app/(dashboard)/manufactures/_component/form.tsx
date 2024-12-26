@@ -25,7 +25,7 @@ const handleSubmit = async(formdata: FormData)=>{
   setLoading(true);
   Swal.fire({
     title:"Submitting....",
-    text:"Please wait while your serie is being submitted",
+    text:"Please wait while your manufature is being submitted",
     icon:"info",
     allowOutsideClick: false,
     allowEscapeKey: false,
@@ -45,7 +45,7 @@ const handleSubmit = async(formdata: FormData)=>{
         await Swal.fire({
           icon:'success',
           title:'success',
-          text:manufacture ? "Serie updated successfully":"Serie created successfully",
+          text:manufacture ? "Manufacture updated successfully":"Manufacture created successfully",
         })
         router.push('/manufactures');
        }

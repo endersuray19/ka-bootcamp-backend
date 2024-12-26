@@ -169,7 +169,7 @@ export default async function OrderItemId({params,}:{params:{orderId:string}}   
             </td>
             <td className="border-b border-[#eee] px-4 py-5  dark:border-strokedark ">
              <h5 className="font-medium text-black  dark:text-white">
-             Rp {item.product.price.toLocaleString("id-ID")}.00
+             Rp {(item.product.price * item.quantity).toLocaleString("id-ID")}.00
               </h5>
             </td>
           </tr>
@@ -185,14 +185,11 @@ export default async function OrderItemId({params,}:{params:{orderId:string}}   
           </td>
           
           <td className=" border-b border-[#eee] px-4 py-5  dark:border-strokedark dark:text-white">
-          Rp  {totalPrice.toLocaleString("id-ID")}.00
+          Rp {( totalPrice).toLocaleString("id-ID")}.00
           </td>
          
          </tr>
-         <tr className="bg-gray-2 text-left dark:bg-[#24303F] text-black">
-          <td colSpan={5} className="border-b border-[#eee] px-4 py-5  dark:border-strokedark dark:text-white"></td>
-          <td className="border-[#eee] px-4 py-5  dark:border-strokedark dark:text-white">Rp {(totalItem * totalPrice).toLocaleString("id-ID")}.00</td>
-         </tr>
+         
       </tbody>
     </table>
   </div>
