@@ -1,7 +1,7 @@
 import ECommerce from "@/components/Dashboard/E-commerce";
 import prisma from "@/lib/prisma";
 import { getProfit } from "@/lib/profit";
-export const revalidate = 10;
+export const revalidate = 3;
 export default async function Home() {
   const categories = await prisma.category.findMany({
     include:{
