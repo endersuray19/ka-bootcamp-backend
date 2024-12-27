@@ -2,6 +2,7 @@ import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import prisma from "@/lib/prisma";
 import dayjs from "dayjs";
 import Link from "next/link";
+export const revalidate = 10;
 import { Metadata } from "next";
 import { useSearchParams } from 'next/navigation';
 export const metadata:Metadata = {

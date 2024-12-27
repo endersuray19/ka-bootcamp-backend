@@ -9,6 +9,7 @@ import ActionForm from "./_component/formAction";
 import Form from "./_component/form";
 import Image from "next/image";
 import { Metadata } from "next";
+export const revalidate = 10;
 export const metadata:Metadata = {
   title:"Category",
   description:"Dashboard"

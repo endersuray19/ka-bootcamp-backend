@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import ActionForm from "./_components/formAction";
 import dayjs from "dayjs";
-
+export const revalidate = 10;
 export const metadata: Metadata = {
   title: "Product",
   description: "Dashboard",

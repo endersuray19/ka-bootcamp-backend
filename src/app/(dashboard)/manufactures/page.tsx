@@ -7,6 +7,7 @@ import Swal from "sweetalert2";
 import ActionForm from "./_component/formAction";
 import Image from "next/image";
 import { Metadata } from "next";
+export const revalidate = 10;
 export const metadata:Metadata = {
   title:"Manufacture",
   description:"Dashboard of a Manufacture"
