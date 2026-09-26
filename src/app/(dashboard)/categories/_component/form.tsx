@@ -188,7 +188,7 @@ async function handleDeleteImage(filename:string){
             className="relative aspect-square rounded bg-white shadow-md"
           >
             <Image 
-              src={`${process.env.NEXT_PUBLIC_SUPABASE_PUBLIC_IMAGE}/${image}`}
+              src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/images/${image}`}
               alt="test"
               fill
               className="object-contain"

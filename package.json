@@ -11,7 +11,8 @@
   },
   "dependencies": {
     "@prisma/client": "^5.19.1",
-    "@supabase/supabase-js": "^2.46.1",
+    "@supabase/ssr": "^0.12.7",
+    "@supabase/supabase-js": "^2.117.2",
     "apexcharts": "^4.0.0",
     "axios": "^1.7.7",
     "bcrypt": "^5.1.1",
