@@ -9,7 +9,6 @@ import ActionForm from "./_component/formAction";
 import Form from "./_component/form";
 import Image from "next/image";
 import { Metadata } from "next";
-import { useState } from "react";
 export const revalidate = 10;
 export const metadata:Metadata = {
   title:"Category",
@@ -53,13 +52,11 @@ export default async function Categories(){
                 <div className="h-12.5 w-15 rounded-md">
                 {category?.images && Array.isArray(category.images) && category.images.length > 0 ? (
                 <Image
-                  // src={`${process.env.NEXT_PUBLIC_SUPABASE_PUBLIC_IMAGE}/${category.images[0]}`} 
-                  src={''}
+                  src={`${process.env.NEXT_PUBLIC_SUPABASE_PUBLIC_IMAGE}/${category.images[0]}`} 
                   width={60}
                   height={50}
                   alt="series"
                   loading="eager" 
-                  
                   />
               ) : (
                 <span className="text-gray-500 text-sm">No Image Available</span>
