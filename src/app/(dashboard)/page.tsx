@@ -1,3 +1,6 @@
+
+
+export const dynamic = "force-dynamic";
 import ECommerce from "@/components/Dashboard/E-commerce";
 import prisma from "@/lib/prisma";
 import { getProfit } from "@/lib/profit";

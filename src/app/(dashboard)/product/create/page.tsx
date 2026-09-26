@@ -1,4 +1,5 @@
 
+export const dynamic = "force-dynamic";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb"
 import Form from "../_components/form"
 import prisma from "@/lib/prisma"

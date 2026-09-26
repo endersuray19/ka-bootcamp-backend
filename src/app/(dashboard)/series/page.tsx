@@ -1,3 +1,6 @@
+
+
+export const dynamic = "force-dynamic";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import prisma from "@/lib/prisma";
 import { Package } from "@/types/package";

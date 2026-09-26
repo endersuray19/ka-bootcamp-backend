@@ -1,3 +1,5 @@
+
+export const dynamic = "force-dynamic";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import prisma from "@/lib/prisma";
 import dayjs from "dayjs";

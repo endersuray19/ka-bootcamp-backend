@@ -1,3 +1,4 @@
+
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import prisma from "@/lib/prisma";
 import { Package } from "@/types/package";
@@ -10,6 +11,9 @@ import Form from "./_component/form";
 import Image from "next/image";
 import { Metadata } from "next";
 export const revalidate = 10;
+
+
+export const dynamic = "force-dynamic";
 export const metadata:Metadata = {
   title:"Category",
   description:"Dashboard"
