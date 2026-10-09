@@ -69,6 +69,7 @@ export default async function Categories(){
                   <h5 className="font-medium text-black dark:text-white">
                     {category.name}
                   </h5>
+                  
                   </div>
                 </td>
                
